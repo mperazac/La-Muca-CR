@@ -12,7 +12,7 @@ const propTypes = {
     total: PropTypes.number.isRequired
   }).isRequired,
   paging: PropTypes.object.isRequired,
-  fetchPageEvents: PropTypes.func.isRequired,
+  fetchBatchEvents: PropTypes.func.isRequired,
   access_token: PropTypes.string,
   isConnected: PropTypes.bool
 };
@@ -32,18 +32,14 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchPageEvents(this.props.access_token);
+      this.props.fetchBatchEvents(this.props.access_token);
     }
   }
   componentDidUpdate() {
     if (this.props.isConnected && this.props.access_token
     && !this.state.hasFetched) {
       this.setState({ hasFetched: true });
-      R.map((mtbFacebookPage) => {
-          this.props.fetchPageEvents(this.props.access_token, mtbFacebookPage);
-        },
-        mtbFacebookPages
-      );
+      this.props.fetchBatchEvents(this.props.access_token, mtbFacebookPages);
     }
   }
   onPagination() {
@@ -58,9 +54,10 @@ class EventsSection extends Component {
     const {
       data: { events }
     } = this.props;
+    const sortedEvents = R.sortBy(R.prop('start_time'))(events);
   	return (
-      events.map((event, index) => (
-				<div key={index}>{event.name}</div>
+      sortedEvents.map((event, index) => (
+				<div key={index}>{event.name} - {event.start_time}</div>
       ))
 		);
 	}

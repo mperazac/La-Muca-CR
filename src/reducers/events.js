@@ -40,6 +40,28 @@ const EventsListReducer = (state = initialState, action) => {
           R.assocPath(['paging'], payload.events.paging)
         )(state)
       );
+    case FacebookActionTypes.FETCH_EVENTS_BATCH_SUCCESS:
+      return deepFreeze(
+        R.compose(
+          R.assocPath(['meta', 'isFetchingEvents'], false),
+          R.assocPath(
+            ['data', 'events'],
+              R.concat(
+                state.data.events,
+                R.reduce(
+                  R.concat,
+                  [],
+                  R.compose(
+                    R.pluck('data'),
+                    R.map((event) => JSON.parse(event)),
+                    R.pluck('body'),
+                    R.filter(R.propEq('code', 200))
+                  )(payload.events)
+                )
+              )
+          )
+        )(state)
+      );
     default:
       return deepFreeze(state);
   }

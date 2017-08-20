@@ -1,4 +1,5 @@
 import axios from 'axios';
+import R from 'ramda';
 
 const base_url = 'https://graph.facebook.com';
 const search = 'search'
@@ -14,4 +15,20 @@ export function fetchEvents(access_token, after = '') {
 export function fetchPageEvents(access_token, facebookPage) {
   const url = `${base_url}/${facebookPage}/${page_events}?access_token=${access_token}&time_filter=upcoming`;
   return axios.get(url);
+}
+
+export function fetchBatchPagesEvents(access_token, facebookPages) {
+  let batch = [];
+  R.map((page) =>
+    batch.push(
+      {
+        method:"GET",
+        relative_url:`${page}/${page_events}?time_filter=upcoming`
+      }
+    ),
+    facebookPages
+  );
+  batch = JSON.stringify(batch);
+  const url = `${base_url}?access_token=${access_token}&batch=${batch}`;
+  return axios.post(url);
 }

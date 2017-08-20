@@ -12,6 +12,13 @@ export function fetchEventsSuccess(events, total) {
   };
 }
 
+export function fetchBatchEventsSuccess(events, total) {
+  return {
+    type: FacebookActionTypes.FETCH_EVENTS_BATCH_SUCCESS,
+    payload: { events, total }
+  };
+}
+
 export function fetchEventsFailure(error) {
   return {
     type: FacebookActionTypes.FETCH_EVENTS_FAILURE,
@@ -29,13 +36,6 @@ export function fetchEvents(access_token, after) {
         .catch((msj) => {
           const error = { message: 'Failed to fetch events' };
           dispatch(fetchEventsFailure(error));
-          // dispatch(
-          //   createNotification({
-          //     type: 'danger',
-          //     title: error.message,
-          //     message: 'Please, reload the page to try again.'
-          //   })
-          // );
         })
     );
   };
@@ -51,13 +51,21 @@ export function fetchPageEvents(access_token, facebookPage) {
         .catch((msj) => {
           const error = { message: 'Failed to fetch events' };
           dispatch(fetchEventsFailure(error));
-          // dispatch(
-          //   createNotification({
-          //     type: 'danger',
-          //     title: error.message,
-          //     message: 'Please, reload the page to try again.'
-          //   })
-          // );
+        })
+    );
+  };
+}
+
+export function fetchBatchEvents(access_token, facebookPages) {
+  return (dispatch) => {
+    dispatch(fetchEventsRequest());
+    return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
+        .then(({ data }) => (
+          dispatch(fetchBatchEventsSuccess(data, 0)) //TODO
+        ))
+        .catch((msj) => {
+          const error = { message: 'Failed to fetch events' };
+          dispatch(fetchEventsFailure(error));
         })
     );
   };
