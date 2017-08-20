@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import R from 'ramda';
+import { mtbFacebookPages } from '../shared/events_facebook_pages';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -10,7 +12,7 @@ const propTypes = {
     total: PropTypes.number.isRequired
   }).isRequired,
   paging: PropTypes.object.isRequired,
-  fetchEvents: PropTypes.func.isRequired,
+  fetchPageEvents: PropTypes.func.isRequired,
   access_token: PropTypes.string,
   isConnected: PropTypes.bool
 };
@@ -30,14 +32,18 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchEvents(this.props.access_token);
+      this.props.fetchPageEvents(this.props.access_token);
     }
   }
   componentDidUpdate() {
     if (this.props.isConnected && this.props.access_token
     && !this.state.hasFetched) {
-      this.props.fetchEvents(this.props.access_token);
       this.setState({ hasFetched: true });
+      R.map((mtbFacebookPage) => {
+          this.props.fetchPageEvents(this.props.access_token, mtbFacebookPage);
+        },
+        mtbFacebookPages
+      );
     }
   }
   onPagination() {

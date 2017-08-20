@@ -40,3 +40,25 @@ export function fetchEvents(access_token, after) {
     );
   };
 }
+
+export function fetchPageEvents(access_token, facebookPage) {
+  return (dispatch) => {
+    dispatch(fetchEventsRequest());
+    return (eventsApi.fetchPageEvents(access_token, facebookPage)
+        .then(({ data }) => (
+          dispatch(fetchEventsSuccess(data, 0)) //TODO
+        ))
+        .catch((msj) => {
+          const error = { message: 'Failed to fetch events' };
+          dispatch(fetchEventsFailure(error));
+          // dispatch(
+          //   createNotification({
+          //     type: 'danger',
+          //     title: error.message,
+          //     message: 'Please, reload the page to try again.'
+          //   })
+          // );
+        })
+    );
+  };
+}

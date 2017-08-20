@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventsSections from './events_section';
-import { fetchEvents } from '../actions/events';
+import { fetchPageEvents } from '../actions/events';
 
 function mapStateToProps(state) {
   const { meta, data, paging } = state.events;
@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchEvents }, dispatch);
+  return bindActionCreators({ fetchPageEvents }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsSections);

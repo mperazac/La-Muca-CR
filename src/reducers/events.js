@@ -31,7 +31,12 @@ const EventsListReducer = (state = initialState, action) => {
         R.compose(
           R.assocPath(['meta', 'isFetchingEvents'], false),
           R.assocPath(['meta', 'total'], 0), //TODO
-          R.assocPath(['data', 'events'], R.concat(state.data.events, payload.events.data)),
+          R.assocPath(
+            ['data', 'events'],
+            R.compose(
+              R.sortBy(R.prop('start_time')),
+              R.concat(state.data.events),
+            )(payload.events.data)),
           R.assocPath(['paging'], payload.events.paging)
         )(state)
       );
