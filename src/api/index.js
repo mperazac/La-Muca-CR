@@ -23,7 +23,7 @@ export function fetchBatchPagesEvents(access_token, facebookPages) {
     batch.push(
       {
         method:"GET",
-        relative_url:`${page}/${page_events}?time_filter=upcoming`
+        relative_url:`${page}/${page_events}?time_filter=upcoming%26`
       }
     ),
     facebookPages
@@ -31,4 +31,9 @@ export function fetchBatchPagesEvents(access_token, facebookPages) {
   batch = JSON.stringify(batch);
   const url = `${base_url}?access_token=${access_token}&batch=${batch}`;
   return axios.post(url);
+}
+
+export function fetchBatchEventsPicturesByIds(access_token, eventsIds) {
+  const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=cover`;
+  return axios.get(url);
 }

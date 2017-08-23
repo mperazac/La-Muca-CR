@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import { mtbFacebookPages } from '../shared/events_facebook_pages';
+import { showSpanishDate } from '../shared/variables';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -57,7 +58,10 @@ class EventsSection extends Component {
     const sortedEvents = R.sortBy(R.prop('start_time'))(events);
   	return (
       sortedEvents.map((event, index) => (
-				<div key={index}>{event.name} - {event.start_time}</div>
+				<div key={index}>
+          {event.name} - {showSpanishDate(event.start_time)}
+          <img src={event.profilePicture} alt=""/>
+				</div>
       ))
 		);
 	}
