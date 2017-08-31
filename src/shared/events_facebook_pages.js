@@ -6,4 +6,12 @@ export const mtbFacebookPages = [
   'RevistaBikecr',
   'wwwbikecrcom-159364380408',
   'crmtb',
+  'ridegreenadventurescr',
+  'ciclo.monociclo',
+  'AcostaMTB',
+  'ciclochavescr',
+  'grupociclismorecreativo.hojancha',
+  'SportClickGrecia',
+  'promobikecr.net',
+  'bicieventosmtb',
 ];

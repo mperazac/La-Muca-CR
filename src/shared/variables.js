@@ -1,19 +1,23 @@
 export const FacebookAppId = '726716517346478';
 
-export const showSpanishDate = (date) => {
-  const nombres_dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-  const nombres_meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-  const fecha_actual = new Date(date);
+const nombres_dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const nombres_meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-  const dia_mes = fecha_actual.getDate(); //dia del mes
-  const dia_semana = fecha_actual.getDay(); //dia de la semana
-  const mes = fecha_actual.getMonth() + 1;
-  const anio = fecha_actual.getFullYear();
+export const getSpanishDate = (date) => {
+  const fecha = new Date(date);
+  const dia_mes = fecha.getDate(); //dia del mes
+  const dia_semana = fecha.getDay(); //dia de la semana
+  const mes = fecha.getMonth() + 1;
+  const anio = fecha.getFullYear();
 
-  let fechaHora = new Date(date);
+  return nombres_dias[dia_semana] + ' ' + dia_mes + ' de ' + nombres_meses[mes - 1] + ' de ' + anio;
+};
+
+export const getEventTime = (date) => {
+  if (!date) return;
+  let fechaHora = new Date(date.substr(0, date.length-5));
   let horas = fechaHora.getHours();
   let minutos = fechaHora.getMinutes();
-  let segundos = fechaHora.getSeconds();
   let sufijo = 'AM';
 
   if (horas > 12) {
@@ -27,8 +31,5 @@ export const showSpanishDate = (date) => {
   if (minutos < 10) {
     minutos = '0' + minutos;
   }
-  if (segundos < 10) {
-    segundos = '0' + segundos;
-  }
-  return nombres_dias[dia_semana] + ' ' + dia_mes + ' de ' + nombres_meses[mes - 1] + ' de ' + anio + ', '+ horas + ':'+minutos + ' ' + sufijo
-}
+  return horas + ':'+ minutos + ' ' + sufijo;
+};

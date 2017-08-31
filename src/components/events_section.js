@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import { mtbFacebookPages } from '../shared/events_facebook_pages';
-import { showSpanishDate } from '../shared/variables';
+import { getSpanishDate, getEventTime } from '../shared/variables';
+import Description from './description';
+import './events_section.css';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -51,18 +53,43 @@ class EventsSection extends Component {
     } = this.props;
     fetchEvents(access_token, after);
   }
+  showPlace(place) {
+    if (!place) return;
+    const { name, location = { city: '', country: ''} } = place;
+    const address = R.uniq([name, location.city, location.country]);
+    return (
+        <p><i className="fa fa-map-marker" aria-hidden="true"></i> {R.join(',', address)}</p>
+      );
+  }
   renderEvents() {
     const {
       data: { events }
     } = this.props;
     const sortedEvents = R.sortBy(R.prop('start_time'))(events);
   	return (
-      sortedEvents.map((event, index) => (
-				<div key={index}>
-          {event.name} - {showSpanishDate(event.start_time)}
-          <img src={event.profilePicture} alt=""/>
-				</div>
-      ))
+      sortedEvents.map((event, index) => {
+        const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
+        return (
+          <div className="event-container">
+            <div key={index} className="row">
+              <div className="col-md-6 col-sm-6">
+                <figure className="event-cover-img">
+                  <a href={facebookEventLink}>
+                    <img src={event.profilePicture} alt="Event-cover"/>
+                  </a>
+                </figure>
+              </div>
+              <div className="col-md-6 col-sm-6 event-info">
+                <h3><a href={facebookEventLink}>{event.name}</a></h3>
+                <p><i className="fa fa-calendar" aria-hidden="true"></i> {getSpanishDate(event.start_time)}</p>
+                <p><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</p>
+                { this.showPlace(event.place) }
+                <Description text={event.description} link={facebookEventLink}/>
+              </div>
+            </div>
+          </div>
+        );
+      })
 		);
 	}
   renderEventsSection() {
@@ -74,9 +101,6 @@ class EventsSection extends Component {
         { events.length > 0
           ? <div>
               {this.renderEvents()}
-              <button className="btn-success" onClick={this.onPagination}>
-                Cargar más
-              </button>
             </div>
           : <div>No hay events</div>
         }

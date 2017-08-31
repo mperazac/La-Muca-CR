@@ -70,8 +70,9 @@ export function fetchBatchEvents(access_token, facebookPages) {
     return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
         .then(({ data }) => {
           const events = getEvents(data);
-          const eventsIds = R.pluck('id', events);
-          dispatch(fetchBatchEventsSuccess(events, 0));
+          const uniqueEvents = R.uniqBy((x) => (x.id), events);
+          const eventsIds = R.pluck('id', uniqueEvents);
+          dispatch(fetchBatchEventsSuccess(uniqueEvents, 0));
           eventsApi.fetchBatchEventsPicturesByIds(access_token, eventsIds)
             .then(({ data }) => {
               console.log(data);
