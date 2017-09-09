@@ -33,3 +33,15 @@ export const getEventTime = (date) => {
   }
   return horas + ':'+ minutos + ' ' + sufijo;
 };
+
+export const getMonth = (date) => {
+  if (!date) return 0;
+  const month = new Date(date.substr(0, date.length-5)).getMonth();
+  return nombres_meses[month];
+};
+
+export const getDay = (date) => {
+  if (!date) return 0;
+  const _date = new Date(date.substr(0, date.length-5));
+  return _date.getDate();
+};

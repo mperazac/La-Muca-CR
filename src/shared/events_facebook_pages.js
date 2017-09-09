@@ -14,4 +14,6 @@ export const mtbFacebookPages = [
   'SportClickGrecia',
   'promobikecr.net',
   'bicieventosmtb',
+  'IRCRMTB',
+  'AknaCRC'
 ];

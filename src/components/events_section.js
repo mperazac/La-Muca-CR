@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
+import ReactLoading from 'react-loading';
 import { mtbFacebookPages } from '../shared/events_facebook_pages';
-import { getSpanishDate, getEventTime } from '../shared/variables';
+import { getEventTime,
+  getMonth, getDay
+} from '../shared/variables';
 import Description from './description';
 import './events_section.css';
 
@@ -58,33 +61,45 @@ class EventsSection extends Component {
     const { name, location = { city: '', country: ''} } = place;
     const address = R.uniq([name, location.city, location.country]);
     return (
-        <p><i className="fa fa-map-marker" aria-hidden="true"></i> {R.join(',', address)}</p>
+      <div>
+        <span><i className="fa fa-map-marker" aria-hidden="true"></i> {R.join(',', address)}</span>
+      </div>
       );
   }
   renderEvents() {
     const {
       data: { events }
     } = this.props;
-    const sortedEvents = R.sortBy(R.prop('start_time'))(events);
   	return (
-      sortedEvents.map((event, index) => {
+      events.map((event, index) => {
         const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
         return (
-          <div className="event-container">
-            <div key={index} className="row">
-              <div className="col-md-6 col-sm-6">
+          <div key={index} className="event-container event-list">
+            <div className="row">
+              <div className="col-md-5 col-sm-6">
                 <figure className="event-cover-img">
                   <a href={facebookEventLink}>
                     <img src={event.profilePicture} alt="Event-cover"/>
                   </a>
                 </figure>
               </div>
-              <div className="col-md-6 col-sm-6 event-info">
-                <h3><a href={facebookEventLink}>{event.name}</a></h3>
-                <p><i className="fa fa-calendar" aria-hidden="true"></i> {getSpanishDate(event.start_time)}</p>
-                <p><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</p>
-                { this.showPlace(event.place) }
-                <Description text={event.description} link={facebookEventLink}/>
+              <div className="col-md-7 col-sm-6 event-info">
+                <div className="box">
+                  <div className="top">
+                    <div className="date">
+                      <span className="month bg-month">{getMonth(event.start_time)}</span>
+                      <span className="day bg-date">{getDay(event.start_time)}</span>
+                    </div>
+                    <div className="right">
+                      <h3><a href={facebookEventLink}>{event.name}</a></h3>
+                      <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
+                      { this.showPlace(event.place) }
+                    </div>
+                  </div>
+                  <div className="content-wrap">
+                    <Description text={event.description} link={facebookEventLink}/>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -98,11 +113,13 @@ class EventsSection extends Component {
     } = this.props;
     return (
     	<div>
-        { events.length > 0
-          ? <div>
-              {this.renderEvents()}
-            </div>
-          : <div>No hay events</div>
+        { events.length > 0 &&
+          <div>
+            {this.renderEvents()}
+          </div>
+        }
+        { (events.length === 0 && this.state.hasFetched) &&
+          <div>No se encontraron eventos próximos</div>
         }
 			</div>
 		);
@@ -115,7 +132,7 @@ class EventsSection extends Component {
 		return (
 			<div>
 				{ isFetchingEvents
-						? <div>Cargando</div>
+						? <ReactLoading type="spin" color="#444" className="loading"/>
 						: this.renderEventsSection(events)
 				}
 			</div>

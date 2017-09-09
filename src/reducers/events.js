@@ -45,10 +45,11 @@ const EventsListReducer = (state = initialState, action) => {
         R.compose(
           R.assocPath(
             ['data', 'events'],
-            R.concat(
+            R.sortBy(R.prop('start_time'))
+            (R.concat(
               state.data.events,
               payload.events
-            )
+            ))
           )
         )(state)
       );

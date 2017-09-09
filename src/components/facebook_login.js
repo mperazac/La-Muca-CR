@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FacebookReduxLogin from 'facebook-login-redux-react';
 import { FacebookAppId } from '../shared/variables';
+import './facebook_login.css';
 
 const propTypes = {
   getLoginStatus: PropTypes.func.isRequired,
@@ -23,7 +24,6 @@ class FacebookLogin extends Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.getUserInformation = this.getUserInformation.bind(this);
-    this.styles = {};
   }
 
   login(response) {
@@ -44,10 +44,9 @@ class FacebookLogin extends Component {
     }
   }
   render() {
-    //const { id, name, email } = this.props.userInformation || { id: null, name: null, email: null };
     this.getUserInformation();
     return (
-      <div style={styles.container}>
+      <div className="facebook-login-container">
         <FacebookReduxLogin
           appId={FacebookAppId}
           verbose={false}
@@ -64,11 +63,3 @@ class FacebookLogin extends Component {
 FacebookLogin.propTypes = propTypes;
 FacebookLogin.defaultProps = defaultProps;
 export default FacebookLogin;
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-};

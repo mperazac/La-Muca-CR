@@ -18,3 +18,67 @@
 
 .description-text {
 }
+
+.event-list .box {
+    padding: 25px 0 0;
+}
+
+.event-list .box .top {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.top .date {
+    width: 115px;
+    margin-right: 25px;
+}
+
+.event-list .box .top span {
+    display: block;
+    margin: 0;
+}
+
+.top .date span.month {
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px 0;
+}
+
+.top .date span {
+    text-align: center;
+}
+
+.bg-date {
+    background-color: #ffc600;
+}
+
+.bg-month {
+    background-color: #1180f2;
+}
+
+.event-list .box .top span {
+    display: block;
+    margin: 0;
+}
+
+.top .date span.day {
+    height: 65px;
+    padding-top: 5px;
+    color: #fff;
+}
+
+h3, .top .date span.day, .related.products h2 {
+    font-size: 30px;
+}
+
+.top .date span {
+    text-align: center;
+}
+
+.event-list .box .top .right {
+    margin-top: -7px;
+}
+
+.loading {
+    margin: 20px auto;
+}
