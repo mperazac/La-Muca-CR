@@ -5,6 +5,7 @@ import FacebookLoginContainer from './components/facebook_login_container';
 import EventsSection from './components/events_sections_container';
 import Footer from './components/footer';
 import './App.css';
+import './shared/utilites.css'
 
 const propTypes = {
   isConnected: PropTypes.bool

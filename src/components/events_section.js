@@ -8,6 +8,7 @@ import { getEventTime,
 } from '../shared/variables';
 import Description from './description';
 import './events_section.css';
+import ShowMore from './../shared/pagination_show_more/pagination_show_more';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -28,13 +29,17 @@ const defaultProps = {
   isConnected: false
 };
 
+const pageSize = 10;
+
 class EventsSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentPage: 1,
       hasFetched: false
     };
     this.onPagination = this.onPagination.bind(this);
+    this.onShowMore = this.onShowMore.bind(this);
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
@@ -47,6 +52,11 @@ class EventsSection extends Component {
       this.setState({ hasFetched: true });
       this.props.fetchBatchEvents(this.props.access_token, mtbFacebookPages);
     }
+  }
+  onShowMore(sizeOfNextPage) {
+    this.setState({
+      currentPage: this.state.currentPage + (sizeOfNextPage / pageSize)
+    });
   }
   onPagination() {
     const {
@@ -70,8 +80,10 @@ class EventsSection extends Component {
     const {
       data: { events }
     } = this.props;
+    const { currentPage } = this.state;
+    const eventsShown = R.slice(0, currentPage * pageSize, events);
   	return (
-      events.map((event, index) => {
+      eventsShown.map((event, index) => {
         const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
         return (
           <div key={index} className="event-container event-list">
@@ -107,6 +119,21 @@ class EventsSection extends Component {
       })
 		);
 	}
+	renderShowMore() {
+    const {
+      data: { events }
+    } = this.props;
+    const { currentPage } = this.state;
+    const eventsShown = R.slice(0, currentPage * pageSize, events);
+    return (
+      <ShowMore
+        currentlyShown={eventsShown.length}
+        pageSize={pageSize}
+        total={events.length}
+        onShowMore={this.onShowMore}
+      />
+    );
+  }
   renderEventsSection() {
     const {
       data: { events }
@@ -116,6 +143,7 @@ class EventsSection extends Component {
         { events.length > 0 &&
           <div>
             {this.renderEvents()}
+            {this.renderShowMore()}
           </div>
         }
         { (events.length === 0 && this.state.hasFetched) &&
