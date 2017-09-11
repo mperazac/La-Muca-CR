@@ -54,13 +54,13 @@ class ShowMore extends Component {
             className="btn btn-outline-primary mg-r-lg"
             onClick={() => this.onShowMore(pageSize, currentlyShown)}
           >
-            Show {showMoreNumber} more
+            Mostrar {showMoreNumber} más
           </button>
           <button
             className="btn btn-outline-primary"
             onClick={() => this.onShowMore(1000, 0)}
           >
-            Show all
+            Mostrar todos
           </button>
         </div>
       </div>
