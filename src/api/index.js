@@ -33,7 +33,7 @@ export function fetchBatchPagesEvents(access_token, facebookPages) {
   return axios.post(url);
 }
 
-export function fetchBatchEventsPicturesByIds(access_token, eventsIds) {
-  const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=cover`;
+export function fetchBatchEventsDetailsByIds(access_token, eventsIds) {
+  const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=cover,owner`;
   return axios.get(url);
 }

@@ -45,3 +45,9 @@ export const getDay = (date) => {
   const _date = new Date(date.substr(0, date.length-5));
   return _date.getDate();
 };
+
+export const getWeekDay = (date) => {
+  if (!date) return 0;
+  const _date = new Date(date.substr(0, date.length-5));
+  return nombres_dias[_date.getDay()];
+};

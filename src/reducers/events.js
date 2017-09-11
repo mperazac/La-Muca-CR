@@ -53,13 +53,13 @@ const EventsListReducer = (state = initialState, action) => {
           )
         )(state)
       );
-    case FacebookActionTypes.FETCH_EVENTS_PICTURES_BATCH_SUCCESS:
+    case FacebookActionTypes.FETCH_EVENTS_DETAILS_SUCCESS:
       return deepFreeze(
         R.compose(
           R.assocPath(['meta', 'isFetchingEvents'], false),
           R.assocPath(
             ['data', 'events'],
-            getEventsWithPictures(state.data.events, payload.events)
+            getEventsDetails(state.data.events, payload.events),
           )
         )(state)
       );
@@ -68,13 +68,16 @@ const EventsListReducer = (state = initialState, action) => {
   }
 };
 
-const getEventsWithPictures = (stateEvents, payloadEvents) => {
-  const respon = R.map((stateEvent) => {
+const getEventsDetails = (stateEvents, payloadEvents) => {
+  return R.map((stateEvent) => {
     const payloadEvent = R.prop(R.prop('id', stateEvent), payloadEvents);
     const url = R.path(['cover', 'source'], payloadEvent);
-    return R.assoc('profilePicture', url, stateEvent);
+    const owner = R.prop('owner', payloadEvent);
+    return R.compose(
+        R.assoc('profilePicture', url),
+        R.assoc('owner', owner)
+    )(stateEvent);
   }, stateEvents);
-  return respon;
 };
 
 export default EventsListReducer;

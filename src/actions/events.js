@@ -20,9 +20,9 @@ export function fetchBatchEventsSuccess(events, total) {
   };
 }
 
-export function fetchBatchEventsPicturesSuccess(events, total) {
+export function fetchBatchEventsDetailsSuccess(events, total) {
   return {
-    type: FacebookActionTypes.FETCH_EVENTS_PICTURES_BATCH_SUCCESS,
+    type: FacebookActionTypes.FETCH_EVENTS_DETAILS_SUCCESS,
     payload: { events, total }
   };
 }
@@ -73,10 +73,10 @@ export function fetchBatchEvents(access_token, facebookPages) {
           const uniqueEvents = R.uniqBy((x) => (x.id), events);
           const eventsIds = R.pluck('id', uniqueEvents);
           dispatch(fetchBatchEventsSuccess(uniqueEvents, 0));
-          eventsApi.fetchBatchEventsPicturesByIds(access_token, eventsIds)
+          eventsApi.fetchBatchEventsDetailsByIds(access_token, eventsIds)
             .then(({ data }) => {
               console.log(data);
-              dispatch(fetchBatchEventsPicturesSuccess(data, 0));
+              dispatch(fetchBatchEventsDetailsSuccess(data, 0));
             })
             .catch((msj) => {
               const error = { message: 'Failed to fetch events' };

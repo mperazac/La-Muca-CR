@@ -4,7 +4,7 @@ import R from 'ramda';
 import ReactLoading from 'react-loading';
 import { mtbFacebookPages } from '../shared/events_facebook_pages';
 import { getEventTime,
-  getMonth, getDay
+  getMonth, getDay, getWeekDay
 } from '../shared/variables';
 import Description from './description';
 import './events_section.css';
@@ -43,7 +43,7 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchBatchEvents(this.props.access_token);
+      this.props.fetchBatchEvents(this.props.access_token, mtbFacebookPages);
     }
   }
   componentDidUpdate() {
@@ -85,6 +85,7 @@ class EventsSection extends Component {
   	return (
       eventsShown.map((event, index) => {
         const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
+        const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
         return (
           <div key={index} className="event-container event-list">
             <div className="row">
@@ -100,12 +101,16 @@ class EventsSection extends Component {
                   <div className="top">
                     <div className="date">
                       <span className="month bg-month">{getMonth(event.start_time)}</span>
-                      <span className="day bg-date">{getDay(event.start_time)}</span>
+                      <div className="day bg-date">
+                        <span>{getDay(event.start_time)}</span>
+                        <span className="weekday">{getWeekDay(event.start_time)}</span>
+                      </div>
                     </div>
                     <div className="right">
                       <h3><a href={facebookEventLink}>{event.name}</a></h3>
                       <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
                       { this.showPlace(event.place) }
+                      <div><span>Organizado por: <a href={facebookOwnerLink}>{event.owner.name}</a></span></div>
                     </div>
                   </div>
                   <div className="content-wrap">

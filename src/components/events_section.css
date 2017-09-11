@@ -56,22 +56,29 @@
     background-color: #1180f2;
 }
 
+.bg-week-day {
+    background-color: #1180f2;
+}
+
 .event-list .box .top span {
     display: block;
     margin: 0;
 }
 
-.top .date span.day {
-    height: 65px;
+.top .date span.day,
+.top .date div.day{
+    height: 73px;
     padding-top: 5px;
     color: #fff;
 }
 
-h3, .top .date span.day, .related.products h2 {
+.top .date span.day,
+.top .date div.day {
     font-size: 30px;
 }
 
-.top .date span {
+.top .date span,
+.top .date div {
     text-align: center;
 }
 
@@ -81,4 +88,9 @@ h3, .top .date span.day, .related.products h2 {
 
 .loading {
     margin: 20px auto;
+}
+
+.weekday {
+    font-size: 16px;
+    line-height: 6px;
 }
