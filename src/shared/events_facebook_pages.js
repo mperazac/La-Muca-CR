@@ -1,7 +1,7 @@
 export const mtbFacebookPages = [
   'BiciAventuraCR',
   'multideportescr',
-  'MTB-Rio-Pejivalle-513194345472172',
+  '513194345472172',
   'PakletearherediaMTByRuta',
   'RevistaBikecr',
   'wwwbikecrcom-159364380408',
@@ -15,5 +15,10 @@ export const mtbFacebookPages = [
   'promobikecr.net',
   'bicieventosmtb',
   'IRCRMTB',
-  'AknaCRC'
+  'AknaCRC',
+  'vueltaallagoarenal',
+  'OutdoorDiscovery16',
+  'retocalero',
+  'mtbrutadelqueso',
+  'Mtb-Extreme-CR-1588460154511971'
 ];

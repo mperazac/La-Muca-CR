@@ -4,3 +4,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.facebook-login-description {
+    padding: 20px 50px;
+    text-align: center;
+}

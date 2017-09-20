@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 
 import './pagination_show_more.css';
@@ -48,7 +49,7 @@ class ShowMore extends Component {
     const showMoreNumber = (total - currentlyShown) > pageSize ?
       pageSize : total - currentlyShown;
     return (
-      <div className="row show-more-pagination-container">
+      <div className="row show-more-pagination-container mg-t-xl">
         <div className="col-md-12">
           <button
             className="btn btn-outline-primary mg-r-lg"

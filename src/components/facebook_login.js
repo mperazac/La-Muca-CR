@@ -47,6 +47,13 @@ class FacebookLogin extends Component {
     this.getUserInformation();
     return (
       <div className="facebook-login-container">
+        {!this.props.facebookLogin.isConnected &&
+          <div className="facebook-login-description">
+            Conéctate con tu cuenta de Facebook para
+            poder listar los eventos de MTB.<br/>Tranquilo(a), no guardaremos
+            nada de tu información.
+          </div>
+        }
         <FacebookReduxLogin
           appId={FacebookAppId}
           verbose={false}

@@ -18,12 +18,27 @@ const defaultProps = {
 class App extends Component {
   render() {
     return (
-      <div className="App container">
-        <FacebookLoginContainer/>
-        { this.props.isConnected &&
+      <div className="main-container">
+        <header>
+
+        </header>
+        <div className="intro">
+          <div className="intro-image">
+            <div className="container">
+              <h3 className="intro-title">¡Hola!</h3>
+              <div className="intro-description">
+                Aquí encontrarás los próximos eventos de MTB en Costa Rica
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          { this.props.isConnected &&
           <EventsSection/>
-        }
-        <Footer/>
+          }
+          <FacebookLoginContainer/>
+          <Footer/>
+        </div>
       </div>
     );
   }
