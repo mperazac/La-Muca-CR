@@ -6,7 +6,7 @@ export const mtbFacebookPages = [
   'RevistaBikecr',
   'wwwbikecrcom-159364380408',
   'crmtb',
-  'ridegreenadventurescr',
+  //'ridegreenadventurescr',
   'ciclo.monociclo',
   'AcostaMTB',
   'ciclochavescr',

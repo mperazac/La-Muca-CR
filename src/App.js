@@ -19,15 +19,23 @@ class App extends Component {
   render() {
     return (
       <div className="main-container">
-        <header>
-
-        </header>
-        <div className="intro">
-          <div className="intro-image">
-            <div className="container">
-              <h3 className="intro-title">¡Hola!</h3>
-              <div className="intro-description">
-                Aquí encontrarás los próximos eventos de MTB en Costa Rica
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-12 no-padding">
+              <div className="a-banner">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-xs-12 col-md-10">
+                      <section className="banner-heading t-left">
+                        <h5 className="heading-subtitle">lamuca cr</h5>
+                        <h1 className="heading-title">Recreativas MTB en Costa Rica</h1>
+                        <p className="heading-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                          euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                      </section>
+                    </div>
+                    <div className="col-md-2"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

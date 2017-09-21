@@ -67,3 +67,8 @@
 .pd-b-md { padding-bottom: 15px; }
 .pd-b-lg { padding-bottom: 20px; }
 .pd-b-xl { padding-bottom: 25px; }
+
+.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
