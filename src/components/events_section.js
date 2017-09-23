@@ -108,7 +108,7 @@ class EventsSection extends Component {
                       </div>
                     </div>
                     <div className="right">
-                      <h3><a href={facebookEventLink}>{event.name}</a></h3>
+                      <h3><a href={facebookEventLink} className="event-name">{event.name}</a></h3>
                       <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
                       { this.showPlace(event.place) }
                       <div><span>Organizado por: <a href={facebookOwnerLink}>{event.owner.name}</a></span></div>
