@@ -6,27 +6,6 @@ export function fetchEventsRequest() {
   return { type: FacebookActionTypes.FETCH_EVENTS_REQUEST };
 }
 
-export function fetchEventsSuccess(events, total) {
-  return {
-    type: FacebookActionTypes.FETCH_EVENTS_SUCCESS,
-    payload: { events, total }
-  };
-}
-
-export function fetchBatchEventsSuccess(events, total) {
-  return {
-    type: FacebookActionTypes.FETCH_EVENTS_BATCH_SUCCESS,
-    payload: { events, total }
-  };
-}
-
-export function fetchBatchEventsDetailsSuccess(events, total) {
-  return {
-    type: FacebookActionTypes.FETCH_EVENTS_DETAILS_SUCCESS,
-    payload: { events, total }
-  };
-}
-
 export function fetchEventsFailure(error) {
   return {
     type: FacebookActionTypes.FETCH_EVENTS_FAILURE,
@@ -34,54 +13,36 @@ export function fetchEventsFailure(error) {
   };
 }
 
-export function fetchEvents(access_token, after) {
-  return (dispatch) => {
-    dispatch(fetchEventsRequest());
-    return (eventsApi.fetchEvents(access_token, after)
-        .then(({ data }) => (
-          dispatch(fetchEventsSuccess(data, 0)) //TODO
-        ))
-        .catch((msj) => {
-          const error = { message: 'Failed to fetch events' };
-          dispatch(fetchEventsFailure(error));
-        })
-    );
+export function fetchAllBatchEventsSuccess(events, total) {
+  return {
+    type: FacebookActionTypes.FETCH_ALL_EVENTS_SUCCESS,
+    payload: { events, total }
   };
 }
 
-export function fetchPageEvents(access_token, facebookPage) {
-  return (dispatch) => {
-    dispatch(fetchEventsRequest());
-    return (eventsApi.fetchPageEvents(access_token, facebookPage)
-        .then(({ data }) => (
-          dispatch(fetchEventsSuccess(data, 0)) //TODO
-        ))
-        .catch((msj) => {
-          const error = { message: 'Failed to fetch events' };
-          dispatch(fetchEventsFailure(error));
-        })
-    );
-  };
-}
-
-export function fetchBatchEvents(access_token, facebookPages) {
+/**
+ * Fetches events by facebooks pages and single events
+ * @param access_token
+ * @param facebookPages
+ * @param facebookEvents
+ * @returns {function(*=)}
+ */
+export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents) {
   return (dispatch) => {
     dispatch(fetchEventsRequest());
     return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
         .then(({ data }) => {
           const events = getEvents(data);
           const uniqueEvents = R.uniqBy((x) => (x.id), events);
-          const eventsIds = R.pluck('id', uniqueEvents);
-          dispatch(fetchBatchEventsSuccess(uniqueEvents, 0));
+          const eventsIds = R.concat(R.pluck('id', uniqueEvents), facebookEvents);
           eventsApi.fetchBatchEventsDetailsByIds(access_token, eventsIds)
             .then(({ data }) => {
-              console.log(data);
-              dispatch(fetchBatchEventsDetailsSuccess(data, 0));
+              dispatch(fetchAllBatchEventsSuccess(Object.values(data), 0));
             })
             .catch((msj) => {
-              const error = { message: 'Failed to fetch events' };
+              const error = { message: 'Failed to fetch events details' };
               dispatch(fetchEventsFailure(error));
-            })
+            });
         })
         .catch((msj) => {
           const error = { message: 'Failed to fetch events' };

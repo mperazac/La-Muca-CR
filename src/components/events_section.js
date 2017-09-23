@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import ReactLoading from 'react-loading';
-import { mtbFacebookPages } from '../shared/events_facebook_pages';
+import { mtbFacebookPages } from '../data/events_facebook_pages';
+import { mtbFacebookEvents } from '../data/events_facebook_events';
 import { getEventTime,
   getMonth, getDay, getWeekDay
 } from '../shared/variables';
@@ -19,7 +20,7 @@ const propTypes = {
     total: PropTypes.number.isRequired
   }).isRequired,
   paging: PropTypes.object.isRequired,
-  fetchBatchEvents: PropTypes.func.isRequired,
+  fetchAllBatchEvents: PropTypes.func.isRequired,
   access_token: PropTypes.string,
   isConnected: PropTypes.bool
 };
@@ -43,14 +44,14 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchBatchEvents(this.props.access_token, mtbFacebookPages);
+      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents);
     }
   }
   componentDidUpdate() {
     if (this.props.isConnected && this.props.access_token
     && !this.state.hasFetched) {
       this.setState({ hasFetched: true });
-      this.props.fetchBatchEvents(this.props.access_token, mtbFacebookPages);
+      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents);
     }
   }
   onShowMore(sizeOfNextPage) {
@@ -92,7 +93,7 @@ class EventsSection extends Component {
               <div className="col-md-5 col-sm-6">
                 <figure className="event-cover-img">
                   <a href={facebookEventLink}>
-                    <img src={event.profilePicture} alt="Event-cover"/>
+                    <img src={event.cover.source} alt="Event-cover"/>
                   </a>
                 </figure>
               </div>

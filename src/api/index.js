@@ -2,28 +2,22 @@ import axios from 'axios';
 import R from 'ramda';
 
 const base_url = 'https://graph.facebook.com';
-const search = 'search'
-const event_type = 'event';
-const event_q = 'recreativa';
 const page_events = 'events';
+const eventFields = ['id','name','cover','owner','description','start_time'];
 
-export function fetchEvents(access_token, after = '') {
-  const url = `${base_url}/${search}?access_token=${access_token}&q=${event_q}&type=${event_type}&after=${after}`;
-  return axios.get(url);
-}
-
-export function fetchPageEvents(access_token, facebookPage) {
-  const url = `${base_url}/${facebookPage}/${page_events}?access_token=${access_token}&time_filter=upcoming`;
-  return axios.get(url);
-}
-
+/**
+ * Fetches upcoming Facebook events by pages names
+ * @param access_token
+ * @param facebookPages
+ * @returns {AxiosPromise}
+ */
 export function fetchBatchPagesEvents(access_token, facebookPages) {
   let batch = [];
   R.map((page) =>
     batch.push(
       {
         method:"GET",
-        relative_url:`${page}/${page_events}?time_filter=upcoming%26`
+        relative_url:`${page}/${page_events}?time_filter=upcoming%26fields=id%26`
       }
     ),
     facebookPages
@@ -33,7 +27,14 @@ export function fetchBatchPagesEvents(access_token, facebookPages) {
   return axios.post(url);
 }
 
+
+/**
+ * Fetches events details
+ * @param access_token
+ * @param eventsIds
+ * @returns {AxiosPromise}
+ */
 export function fetchBatchEventsDetailsByIds(access_token, eventsIds) {
-  const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=cover,owner`;
+  const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=${eventFields.join(',')}`;
   return axios.get(url);
 }
