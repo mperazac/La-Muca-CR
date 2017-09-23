@@ -5,6 +5,7 @@ import FacebookLoginContainer from './components/facebook_login_container';
 import EventsSection from './components/events_sections_container';
 import Footer from './components/footer';
 import Header from './components/header';
+import ShareThis from './shared/share_this';
 import './App.css';
 import './shared/utilites.css'
 
@@ -22,6 +23,7 @@ class App extends Component {
       <div className="main-container">
         <Header/>
         <div className="container">
+          <ShareThis />
           { this.props.isConnected &&
           <EventsSection/>
           }

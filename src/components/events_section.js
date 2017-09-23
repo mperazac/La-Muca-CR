@@ -10,6 +10,7 @@ import { getEventTime,
 import Description from './description';
 import './events_section.css';
 import ShowMore from './../shared/pagination_show_more/pagination_show_more';
+import ShareThis from './../shared/share_this';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -87,7 +88,6 @@ class EventsSection extends Component {
       eventsShown.map((event, index) => {
         const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
         const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
-        const whatsAppLink = `https://web.whatsapp.com/send?text=${facebookEventLink}`;
         return (
           <div key={index} className="event-container event-list">
             <div className="row">
@@ -113,14 +113,12 @@ class EventsSection extends Component {
                       <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
                       { this.showPlace(event.place) }
                       <div><span>Organizado por: <a href={facebookOwnerLink}>{event.owner.name}</a></span></div>
+                      <ShareThis url={facebookEventLink} title={event.name}/>
                     </div>
                   </div>
                   <div className="content-wrap">
                     <Description text={event.description} link={facebookEventLink}/>
                   </div>
-                  <a href={whatsAppLink} data-action="share/whatsapp/share" target="_blank">
-                    Compartir via Whatsapp web
-                  </a>
                 </div>
               </div>
             </div>
