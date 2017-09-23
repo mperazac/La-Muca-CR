@@ -3,7 +3,7 @@ import R from 'ramda';
 
 const base_url = 'https://graph.facebook.com';
 const page_events = 'events';
-const eventFields = ['id','name','cover','owner','description','start_time'];
+const eventFields = ['id','name','cover','owner','description','start_time', 'end_time'];
 
 /**
  * Fetches upcoming Facebook events by pages names

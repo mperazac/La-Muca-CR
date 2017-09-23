@@ -87,6 +87,7 @@ class EventsSection extends Component {
       eventsShown.map((event, index) => {
         const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
         const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
+        const whatsAppLink = `https://web.whatsapp.com/send?text=${facebookEventLink}`;
         return (
           <div key={index} className="event-container event-list">
             <div className="row">
@@ -117,6 +118,9 @@ class EventsSection extends Component {
                   <div className="content-wrap">
                     <Description text={event.description} link={facebookEventLink}/>
                   </div>
+                  <a href={whatsAppLink} data-action="share/whatsapp/share" target="_blank">
+                    Compartir via Whatsapp web
+                  </a>
                 </div>
               </div>
             </div>
