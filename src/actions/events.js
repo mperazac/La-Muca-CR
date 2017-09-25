@@ -33,11 +33,12 @@ export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents)
     return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
         .then(({ data }) => {
           const events = getEvents(data);
-          const uniqueEvents = R.uniqBy((x) => (x.id), events);
-          const eventsIds = R.concat(R.pluck('id', uniqueEvents), facebookEvents);
-          eventsApi.fetchBatchEventsDetailsByIds(access_token, eventsIds)
+          const eventsIds = R.concat(R.pluck('id', events), facebookEvents);
+          const uniqueEventsIds = R.uniq(eventsIds);
+          eventsApi.fetchBatchEventsDetailsByIds(access_token, uniqueEventsIds)
             .then(({ data }) => {
-              dispatch(fetchAllBatchEventsSuccess(Object.values(data), 0));
+              const onlyUpcomingEvents = getOnlyUpcomingEvents(Object.values(data));
+              dispatch(fetchAllBatchEventsSuccess(onlyUpcomingEvents, 0));
             })
             .catch((msj) => {
               const error = { message: 'Failed to fetch events details' };
@@ -51,6 +52,12 @@ export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents)
     );
   };
 }
+
+const getOnlyUpcomingEvents = (events) => {
+  return R.filter((event) => {
+    return new Date(event.start_time) > Date.now();
+  }, events)
+};
 
 const getEvents = (events) => {
   return R.reduce(
