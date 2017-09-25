@@ -6,8 +6,9 @@ import { mtbFacebookPages } from '../data/events_facebook_pages';
 import { mtbFacebookEvents } from '../data/events_facebook_events';
 import { getEventTime,
   getMonth, getDay, getWeekDay
-} from '../shared/variables';
+} from '../shared/helpers';
 import Description from './description';
+import SearchFilter from './search_filters';
 import './events_section.css';
 import ShowMore from './../shared/pagination_show_more/pagination_show_more';
 import ShareThis from './../shared/share_this';
@@ -68,7 +69,7 @@ class EventsSection extends Component {
     } = this.props;
     fetchEvents(access_token, after);
   }
-  showPlace(place) {
+  renderPlace(place) {
     if (!place) return;
     const { name, location = { city: '', country: ''} } = place;
     const address = R.uniq([name, location.city, location.country]);
@@ -111,7 +112,7 @@ class EventsSection extends Component {
                     <div className="right">
                       <h3><a href={facebookEventLink} className="event-name">{event.name}</a></h3>
                       <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
-                      { this.showPlace(event.place) }
+                      { this.renderPlace(event.place) }
                       <div><span>Organizado por: <a href={facebookOwnerLink}>{event.owner.name}</a></span></div>
                       <ShareThis url={facebookEventLink} title={event.name}/>
                     </div>
@@ -127,6 +128,11 @@ class EventsSection extends Component {
       })
 		);
 	}
+	renderSearchFilters() {
+    return (
+      <SearchFilter/>
+    );
+  }
 	renderShowMore() {
     const {
       data: { events }
@@ -150,6 +156,7 @@ class EventsSection extends Component {
     	<div>
         { events.length > 0 &&
           <div>
+            {this.renderSearchFilters()}
             {this.renderEvents()}
             {this.renderShowMore()}
           </div>
