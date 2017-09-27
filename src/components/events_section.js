@@ -64,33 +64,34 @@ class EventsSection extends Component {
   getFilteredEvents() {
     const { searchWord, searchDate } = this.state;
     const { data: { events } } = this.props;
-    let result = [];
-    const isSimilarWord = (word) => {
-      return R.contains(R.toLower(searchWord), R.toLower(word));
-    };
-    const isSameDay = (startTime) => {
-      return moment(startTime).isSame(searchDate, 'day');
-    };
+    const isSimilarWord = word => (
+      word ? R.contains(R.toLower(searchWord), R.toLower(word)) : false
+    );
+    const isSameDay = startTime => (
+      moment(startTime).isSame(searchDate, 'day')
+    );
+    const containsWord = event => (
+      isSimilarWord(event.name) ||
+      isSimilarWord(R.path(['owner', 'name'], event)) ||
+      isSimilarWord(R.prop('description', event)) || isSimilarWord(R.path(['place', 'name'], event)) ||
+      isSimilarWord(R.path(['place', 'location', 'city'], event)) ||
+      isSimilarWord(R.path(['place', 'location', 'country'], event)) ||
+      isSimilarWord(R.path(['place', 'location', 'street'], event))
+    );
     if (searchWord && !searchDate) {
-      result = R.filter((event) => {
-        const isDescription = event.description ? isSimilarWord(event.description) : false;
-        return isSimilarWord(event.name) || isDescription;
-      }, events);
-      return result;
+      return R.filter(event => (
+        containsWord(event)
+      ), events);
     }
     if (!searchWord && searchDate) {
-      result = R.filter((event) => {
-        return isSameDay(event.start_time);
-      }, events);
-      return result;
+      return R.filter(event => (
+        isSameDay(event.start_time)
+      ), events);
     }
     if (searchWord && searchDate) {
-      result = R.filter((event) => {
-        const isDescription = event.description ? isSimilarWord(event.description) : false;
-        return (isSimilarWord(event.name) || isDescription) &&
-          isSameDay(event.start_time);
-      }, events);
-      return result;
+      return R.filter(event => (
+        containsWord(event) && isSameDay(event.start_time)
+      ), events);
     }
     return events;
   }
