@@ -46,18 +46,18 @@ class SearchFilter extends Component {
     return (
       <div className="searchfilter-container mg-t-xl" >
         <div className="row align-items-center">
-          <div className="col-sm-3"></div>
-          <div className="col-sm-3">
+          <div className="col-md-3"></div>
+          <div className="col-md-3">
             <input
               type="text"
-              className="form-control mb-2 mb-sm-0"
+              className="form-control mb-2 mb-md-0"
               id="inlineFormInputName"
               placeholder="Buscar por palabras"
               onChange={(evt) => {this.setState({ searchWord: evt.target.value })}}
               value={this.state.searchWord}
             />
           </div>
-          <div className="col-sm-2">
+          <div className="col-md-2">
             <DayPickerInput
               name="fecha"
               value={value}
@@ -67,10 +67,10 @@ class SearchFilter extends Component {
                 this.setState({ searchDate })
               }}
               dayPickerProps={dayPickerProps}
-              className="form-control mb-2 mb-sm-0"
+              className="form-control mb-2 mb-md-0"
             />
           </div>
-          <div className="col-auto mb-2 mb-sm-0">
+          <div className="col-auto mb-2 mb-md-0">
             <button type="submit" className="btn btn-primary mg-r-sm" onClick={this.onSearch}>
               <i className="fa fa-search"></i> Buscar
             </button>
@@ -78,6 +78,7 @@ class SearchFilter extends Component {
               Limpiar
             </button>
           </div>
+          <div className="col-sm-1"></div>
         </div>
       </div>
     );
