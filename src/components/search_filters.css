@@ -1,0 +1,9 @@
+.searchfilter-container .btn-primary {
+    background-color: #F06517;
+    border-color: #F06517;
+}
+
+.searchfilter-container .btn-primary:hover {
+    background-color: #F0540A;
+    border-color: #F0540A;
+}
