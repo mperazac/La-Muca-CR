@@ -1,3 +1,23 @@
 .DayPickerInput-Overlay {
     z-index: 99;
 }
+
+.btn-primary {
+    background-color: #F06517;
+    border-color: #F06517;
+}
+
+.btn-primary:hover {
+    background-color: #f05230;
+    border-color: #f05230;
+}
+
+.btn-secondary {
+    background-color: #A7A69B;
+    border-color: #A7A69B;
+}
+
+.btn-secondary:hover {
+    background-color: #99988E;
+    border-color: #99988E;
+}

@@ -67,10 +67,10 @@ class SearchFilter extends Component {
                 this.setState({ searchDate })
               }}
               dayPickerProps={dayPickerProps}
-              className="form-control"
+              className="form-control mb-2 mb-sm-0"
             />
           </div>
-          <div className="col-auto">
+          <div className="col-auto mb-2 mb-sm-0">
             <button type="submit" className="btn btn-primary mg-r-sm" onClick={this.onSearch}>
               <i className="fa fa-search"></i> Buscar
             </button>
