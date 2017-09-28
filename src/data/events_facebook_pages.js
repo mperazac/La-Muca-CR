@@ -20,5 +20,6 @@ export const mtbFacebookPages = [
   'OutdoorDiscovery16',
   'retocalero',
   'mtbrutadelqueso',
-  'Mtb-Extreme-CR-1588460154511971'
+  '1588460154511971',
+  'Bikesparza'
 ];

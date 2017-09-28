@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FacebookReduxLogin from 'facebook-login-redux-react';
-import { FacebookAppId } from '../shared/variables';
 import './facebook_login.css';
 
 const propTypes = {
@@ -55,7 +54,7 @@ class FacebookLogin extends Component {
           </div>
         }
         <FacebookReduxLogin
-          appId={FacebookAppId}
+          appId={process.env.REACT_APP_FACEBOOK_APP_ID}
           verbose={false}
           onWillMount={this.login}
           onLoginEvent={this.login}
