@@ -19,6 +19,7 @@ class SearchFilter extends Component {
     };
     this.onSearch = this.onSearch.bind(this);
     this.onClean = this.onClean.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   onSearch() {
     const { searchWord, searchDate } = this.state;
@@ -30,6 +31,11 @@ class SearchFilter extends Component {
       searchDate: undefined
     });
     this.props.onClean();
+  }
+  handleKeyPress(event) {
+    if(event.key === 'Enter'){
+      this.onSearch();
+    }
   }
   render() {
     const now = moment().toDate();
@@ -52,9 +58,10 @@ class SearchFilter extends Component {
               type="text"
               className="form-control mb-2 mb-md-0"
               id="inlineFormInputName"
-              placeholder="Buscar por palabras"
+              placeholder="Por palabras"
               onChange={(evt) => {this.setState({ searchWord: evt.target.value })}}
               value={this.state.searchWord}
+              onKeyPress={this.handleKeyPress}
             />
           </div>
           <div className="col-md-2">
@@ -62,12 +69,13 @@ class SearchFilter extends Component {
               name="fecha"
               value={value}
               format="DD/MM/YYYY"
-              placeholder="Buscar por fecha"
+              placeholder="Por fecha"
               onDayChange={(searchDate) => {
                 this.setState({ searchDate })
               }}
               dayPickerProps={dayPickerProps}
               className="form-control mb-2 mb-md-0"
+              onKeyPress={this.handleKeyPress}
             />
           </div>
           <div className="col-auto mb-2 mb-md-0">
