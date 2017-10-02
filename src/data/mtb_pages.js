@@ -21,5 +21,6 @@ export const mtbFacebookPages = [
   'retocalero',
   'mtbrutadelqueso',
   '1588460154511971',
-  'Bikesparza'
+  'Bikesparza',
+  'DominiosdelDragon'
 ];

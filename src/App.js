@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactGA from 'react-ga';
 import FacebookLoginContainer from './components/facebook_login_container';
 import EventsSection from './components/events_sections_container';
 import Footer from './components/footer';
@@ -17,6 +18,17 @@ const defaultProps = {
 };
 
 class App extends Component {
+  constructor() {
+    super();
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.REACT_APP_GOOGLE);
+    if (process.env.NODE_ENV === 'production') {
+      // Add your tracking ID created from https://analytics.google.com/analytics/web/#home/
+      ReactGA.initialize('UA-45298262-13');
+      // This just needs to be called once since w e have no routes in this case.
+      ReactGA.pageview(window.location.pathname);
+    }
+  }
   render() {
     return (
       <div className="main-container">
