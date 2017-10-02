@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import R from 'ramda';
 import moment from 'moment';
 import ReactLoading from 'react-loading';
-import { mtbFacebookPages } from '../data/events_facebook_pages';
-import { mtbFacebookEvents } from '../data/events_facebook_events';
+import { mtbFacebookPages } from '../data/mtb_pages';
+import { mtbFacebookEvents } from '../data/mtb_events';
+import { mtbExcludeFacebookEvents } from'../data/mtb_exclusions';
 import { getEventTime,
   getMonth, getDay, getWeekDay
 } from '../shared/helpers';
@@ -51,14 +52,14 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents);
+      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents, mtbExcludeFacebookEvents);
     }
   }
   componentDidUpdate() {
     if (this.props.isConnected && this.props.access_token
     && !this.state.hasFetched) {
       this.setState({ hasFetched: true });
-      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents);
+      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents, mtbExcludeFacebookEvents);
     }
   }
   getFilteredEvents() {

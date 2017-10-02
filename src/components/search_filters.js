@@ -14,7 +14,7 @@ class SearchFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchWord: null,
+      searchWord: '',
       searchDate: undefined
     };
     this.onSearch = this.onSearch.bind(this);

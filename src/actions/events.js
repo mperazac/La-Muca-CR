@@ -1,4 +1,5 @@
 import R from 'ramda';
+import moment from 'moment';
 import * as FacebookActionTypes from '../actiontypes/events';
 import * as eventsApi from '../api/index';
 
@@ -27,14 +28,14 @@ export function fetchAllBatchEventsSuccess(events, total) {
  * @param facebookEvents
  * @returns {function(*=)}
  */
-export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents) {
+export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents, excludeFacebookEvents) {
   return (dispatch) => {
     dispatch(fetchEventsRequest());
     return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
         .then(({ data }) => {
           const events = getEvents(data);
           const eventsIds = R.concat(R.pluck('id', events), facebookEvents);
-          const uniqueEventsIds = R.uniq(eventsIds);
+          const uniqueEventsIds = R.without(excludeFacebookEvents, R.uniq(eventsIds));
           eventsApi.fetchBatchEventsDetailsByIds(access_token, uniqueEventsIds)
             .then(({ data }) => {
               const onlyUpcomingEvents = getOnlyUpcomingEvents(Object.values(data));
@@ -55,7 +56,8 @@ export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents)
 
 const getOnlyUpcomingEvents = (events) => {
   return R.filter((event) => {
-    return new Date(event.start_time) > Date.now();
+    //return new Date(event.start_time) > Date.now();
+    return moment(event.start_time).isSameOrAfter(moment.now());
   }, events)
 };
 
