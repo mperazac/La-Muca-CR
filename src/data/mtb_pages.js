@@ -22,5 +22,7 @@ export const mtbFacebookPages = [
   'mtbrutadelqueso',
   '1588460154511971',
   'Bikesparza',
-  'DominiosdelDragon'
+  'DominiosdelDragon',
+  '1491817487541579',
+  'CiclismoZonaSurCR'
 ];
