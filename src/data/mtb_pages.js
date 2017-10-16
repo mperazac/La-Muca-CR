@@ -24,5 +24,7 @@ export const mtbFacebookPages = [
   'Bikesparza',
   'DominiosdelDragon',
   '1491817487541579',
-  'CiclismoZonaSurCR'
+  'CiclismoZonaSurCR',
+  'aventurastiquicia',
+  'mtbrecreativocr',
 ];
