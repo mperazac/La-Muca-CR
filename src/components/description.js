@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 const propTypes = {
   text: PropTypes.string,
@@ -28,9 +29,9 @@ const Description = props => (
       {shorten(props.text, props.maxLength)}
     </p>
     { props.text.length > props.maxLength && (
-      <a href={props.link} className="btn btn-outline-primary" target="_blank">
+      <Button href={props.link} className="outline-primary" target="_blank">
         Ver más <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
-      </a>
+      </Button>
     )}
   </div>
 );

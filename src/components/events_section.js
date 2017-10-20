@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import R from 'ramda';
 import moment from 'moment';
 import ReactLoading from 'react-loading';
+import ImageZoom from 'react-medium-image-zoom'
 import { mtbFacebookPages } from '../data/mtb_pages';
 import { mtbFacebookEvents } from '../data/mtb_events';
 import { mtbExcludeFacebookEvents } from'../data/mtb_exclusions';
@@ -146,9 +147,16 @@ class EventsSection extends Component {
               <div className="row">
                 <div className="col-md-5 col-sm-6">
                   <figure className="event-cover-img">
-                    <a href={facebookEventLink} target="_blank">
-                      <img src={event.cover.source} alt="Event-cover"/>
-                    </a>
+                    <ImageZoom
+                      image={{
+                        src: event.cover.source,
+                        alt: `event conver image ${event.name}`
+                      }}
+                      zoomImage={{
+                        src: event.cover.source,
+                        alt: `event conver image ${event.name}`
+                      }}
+                    />
                   </figure>
                 </div>
                 <div className="col-md-7 col-sm-6 event-info">
@@ -162,7 +170,7 @@ class EventsSection extends Component {
                         </div>
                       </div>
                       <div className="right">
-                        <h3><a href={facebookEventLink} target="_blank" className="event-name">{event.name}</a></h3>
+                        <h3><a href={facebookEventLink} className="event-name" target="_blank">{event.name}</a></h3>
                         <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
                         { this.renderPlace(event.place) }
                         <div><span>Organizado por: <a href={facebookOwnerLink} target="_blank">{event.owner.name}</a></span></div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 import ReactLoading from 'react-loading';
 
 import './pagination_show_more.css';
@@ -51,18 +52,21 @@ class ShowMore extends Component {
     return (
       <div className="row show-more-pagination-container mg-t-xl">
         <div className="col-md-12">
-          <button
-            className="btn btn-outline-primary mg-r-lg"
+          <Button
+            className="mg-r-lg outline-primary"
+            bsSize="large"
             onClick={() => this.onShowMore(pageSize, currentlyShown)}
           >
             Mostrar {showMoreNumber} más
-          </button>
-          <button
-            className="btn btn-outline-primary"
+          </Button>
+          <Button
+            className="outline-primary"
+            bsSize="large"
             onClick={() => this.onShowMore(1000, 0)}
           >
             Mostrar todos
-          </button>
+          </Button>
+
         </div>
       </div>
     );

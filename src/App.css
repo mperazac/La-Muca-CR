@@ -15,9 +15,14 @@
 .btn-secondary {
     background-color: #A7A69B;
     border-color: #A7A69B;
+    color: #fff;
 }
 
 .btn-secondary:hover {
     background-color: #99988E;
     border-color: #99988E;
+}
+
+.btn-outline-primary {
+    background-color: #fff;
 }

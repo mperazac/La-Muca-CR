@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
@@ -79,12 +80,12 @@ class SearchFilter extends Component {
             />
           </div>
           <div className="col-auto mb-2 mb-md-0">
-            <button type="submit" className="btn btn-primary mg-r-sm" onClick={this.onSearch}>
+            <Button type="submit" bsStyle="primary" className="mg-r-sm" onClick={this.onSearch}>
               <i className="fa fa-search"></i> Buscar
-            </button>
-            <button className="btn btn-secondary" onClick={this.onClean}>
+            </Button>
+            <Button className="secondary" onClick={this.onClean}>
               Limpiar
-            </button>
+            </Button>
           </div>
           <div className="col-sm-1"></div>
         </div>
