@@ -146,7 +146,7 @@ class EventsSection extends Component {
               <div className="row">
                 <div className="col-md-5 col-sm-6">
                   <figure className="event-cover-img">
-                    <a href={facebookEventLink}>
+                    <a href={facebookEventLink} target="_blank">
                       <img src={event.cover.source} alt="Event-cover"/>
                     </a>
                   </figure>
@@ -162,10 +162,10 @@ class EventsSection extends Component {
                         </div>
                       </div>
                       <div className="right">
-                        <h3><a href={facebookEventLink} className="event-name">{event.name}</a></h3>
+                        <h3><a href={facebookEventLink} target="_blank" className="event-name">{event.name}</a></h3>
                         <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
                         { this.renderPlace(event.place) }
-                        <div><span>Organizado por: <a href={facebookOwnerLink}>{event.owner.name}</a></span></div>
+                        <div><span>Organizado por: <a href={facebookOwnerLink} target="_blank">{event.owner.name}</a></span></div>
                         <ShareThis url={facebookEventLink} title={event.name}/>
                       </div>
                     </div>

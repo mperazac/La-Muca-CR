@@ -28,7 +28,7 @@ const Description = props => (
       {shorten(props.text, props.maxLength)}
     </p>
     { props.text.length > props.maxLength && (
-      <a href={props.link} className="btn btn-outline-primary">
+      <a href={props.link} className="btn btn-outline-primary" target="_blank">
         Ver más <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
       </a>
     )}

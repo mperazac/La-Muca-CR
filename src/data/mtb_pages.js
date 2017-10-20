@@ -27,4 +27,5 @@ export const mtbFacebookPages = [
   'CiclismoZonaSurCR',
   'aventurastiquicia',
   'mtbrecreativocr',
+  'tortugascleteras'
 ];
