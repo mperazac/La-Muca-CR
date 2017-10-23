@@ -2,28 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
-  ControlLabel,
-  FormControl,
-  FormGroup,
+  Form,
+  FormGroup,Label,
+  Input,
   Modal,
-  HelpBlock
-} from  'react-bootstrap';
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from  'reactstrap';
 import { sendEmail } from '../api/index';
 
 const propTypes = {
   showModal: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired
 };
-
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
 
 class ContactUs extends Component {
   constructor() {
@@ -62,40 +54,44 @@ class ContactUs extends Component {
   render() {
     const { showModal } = this.props;
     return (
-      <Modal show={showModal} onHide={this.onHide}>
-        <Modal.Header closeButton>
-          <Modal.Title>¡Hola!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Modal isOpen={showModal} toggle={this.onHide}>
+        <ModalHeader closeButton>
+          ¡Hola!
+        </ModalHeader>
+        <ModalBody>
           <h4>Envíanos tu comentario o tu evento MTB</h4>
           <p>Si nos vas a enviar tu evento de MTB para que lo publiquenos,
             lo único que nos debes de enviar es el enlace al evento en
-            Facebook. <span role="img" aria-label="emoji">😉</span></p>
+            Facebook. ¡Es gratis! <span role="img" aria-label="emoji">😉</span></p>
 
-          <form action="emailHandler.php" method="POST" id="emailForm">
-            <FieldGroup
-              id="formControlsEmail"
-              type="email"
-              label="Correo electrónico"
-              value={this.state.email}
-              onChange={this.handleEmailChange}
-            />
+          <Form action="emailHandler.php" method="POST" id="emailForm">
+            <FormGroup>
+              <Label for="formControlsEmail">Correo electrónico</Label>
+              <Input
+                type="email"
+                name="email"
+                id="formControlsEmail"
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+              />
+            </FormGroup>
             <FormGroup controlId="formControlsTextarea">
-              <ControlLabel>Mensaje</ControlLabel>
-              <FormControl
-                componentClass="textarea"
+              <Label for="message">Mensaje</Label>
+              <Input
+                type="textarea"
+                id="message"
                 value={this.state.message}
                 onChange={this.handleMessageChange}
               />
             </FormGroup>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
           <Button onClick={this.onHide}>Cerrar</Button>
-          <Button bsStyle="primary" onClick={this.onSubmit}>
+          <Button color="primary" onClick={this.onSubmit}>
             Enviar
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     );
   }

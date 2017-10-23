@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import ContactUs from './../components/contact_us';
 import TermsAndConditions from './../components/terms_and_conditions';
 
@@ -38,14 +39,17 @@ class Footer extends Component {
     return (
       <div className="footer">
         <div className="mg-b-lg">
-          <a
+          <Button
+            color="link"
             onClick={this.openContactUsModal}
             className="mg-r-lg"
           > Contáctanos
-          </a>
-          <a onClick={this.openTermsAndConditions}>
+          </Button>
+          <Button
+            color="link"
+            onClick={this.openTermsAndConditions}>
             Términos y condiciones
-          </a>
+          </Button>
         </div>
         <p className="made-by">Hecho por <a href="http://www.webondigital.com">Web-On Digital</a> para todos los fiebres del MTB.</p>
         <ContactUs
