@@ -5,5 +5,8 @@
 .footer p {
     font-size: 1.3rem;
     color: #333;
+}
+
+.footer {
     text-align: center;
 }

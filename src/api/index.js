@@ -38,3 +38,9 @@ export function fetchBatchEventsDetailsByIds(access_token, eventsIds) {
   const url = `${base_url}?access_token=${access_token}&ids=${eventsIds.join(',')}&fields=${eventFields.join(',')}`;
   return axios.get(url);
 }
+
+
+export function sendEmail(email, message) {
+  const url = `sendemail.php?email=${email}&message=${message}`;
+  return axios.post(url, {email, message});
+}

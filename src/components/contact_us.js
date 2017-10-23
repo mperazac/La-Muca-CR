@@ -8,6 +8,7 @@ import {
   Modal,
   HelpBlock
 } from  'react-bootstrap';
+import { sendEmail } from '../api/index';
 
 const propTypes = {
   showModal: PropTypes.bool.isRequired,
@@ -35,6 +36,7 @@ class ContactUs extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onHide = this.onHide.bind(this);
   }
 
   handleEmailChange(event) {
@@ -45,14 +47,22 @@ class ContactUs extends Component {
     this.setState({message: event.target.value});
   }
 
-  onSubmit() {
-    alert(this.state.message + this.state.email);
+  onHide() {
+    this.setState({
+      email: '',
+      message: ''
+    });
     this.props.onHide();
   }
+
+  onSubmit() {
+    sendEmail(this.state.email, this.state.message);
+    this.onHide();
+  }
   render() {
-    const { showModal, onHide } = this.props;
+    const { showModal } = this.props;
     return (
-      <Modal show={showModal} onHide={onHide}>
+      <Modal show={showModal} onHide={this.onHide}>
         <Modal.Header closeButton>
           <Modal.Title>¡Hola!</Modal.Title>
         </Modal.Header>
@@ -61,7 +71,8 @@ class ContactUs extends Component {
           <p>Si nos vas a enviar tu evento de MTB para que lo publiquenos,
             lo único que nos debes de enviar es el enlace al evento en
             Facebook. <span role="img" aria-label="emoji">😉</span></p>
-          <form>
+
+          <form action="emailHandler.php" method="POST" id="emailForm">
             <FieldGroup
               id="formControlsEmail"
               type="email"
@@ -80,10 +91,10 @@ class ContactUs extends Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.onSubmit}>
+          <Button onClick={this.onHide}>Cerrar</Button>
+          <Button bsStyle="primary" onClick={this.onSubmit}>
             Enviar
           </Button>
-          <Button onClick={onHide}>Cerrar</Button>
         </Modal.Footer>
       </Modal>
     );

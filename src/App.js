@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import FacebookLoginContainer from './components/facebook_login_container';
 import EventsSection from './components/events_sections_container';
-import ContactUs from './components/contact_us';
 import Footer from './components/footer';
 import Header from './components/header';
 import './App.css';
-import './shared/utilites.css'
+import './shared/utilities.css'
 
 const propTypes = {
   isConnected: PropTypes.bool
@@ -22,27 +20,13 @@ const defaultProps = {
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      showContactUsModal: false
-    };
     if (process.env.NODE_ENV === 'production') {
       // Add your tracking ID created from https://analytics.google.com/analytics/web/#home/
       ReactGA.initialize('UA-45298262-13');
       // This just needs to be called once since w e have no routes in this case.
       ReactGA.pageview(window.location.pathname);
     }
-    this.openContactUsModal = this.openContactUsModal.bind(this);
-    this.closeContactUsModal = this.closeContactUsModal.bind(this);
   }
-
-  closeContactUsModal() {
-    debugger;
-    this.setState({ showContactUsModal: false });
-  };
-
-  openContactUsModal() {
-    this.setState({ showContactUsModal: true });
-  };
 
   render() {
     return (
@@ -53,15 +37,7 @@ class App extends Component {
           <EventsSection/>
           }
           <FacebookLoginContainer/>
-          <Button
-            onClick={this.openContactUsModal}
-          > Contactenos
-          </Button>
           <Footer/>
-          <ContactUs
-            showModal={this.state.showContactUsModal}
-            onHide={this.closeContactUsModal}
-          />
         </div>
       </div>
     );

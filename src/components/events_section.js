@@ -9,7 +9,7 @@ import { mtbFacebookEvents } from '../data/mtb_events';
 import { mtbExcludeFacebookEvents } from'../data/mtb_exclusions';
 import { getEventTime,
   getMonth, getDay, getWeekDay
-} from '../shared/helpers';
+} from '../helpers/date_helpers';
 import Description from './description';
 import SearchFilter from './search_filters';
 import './events_section.css';
