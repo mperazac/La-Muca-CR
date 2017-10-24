@@ -40,7 +40,7 @@ export function fetchBatchEventsDetailsByIds(access_token, eventsIds) {
 }
 
 
-export function sendEmail(email, message) {
-  const url = `sendemail.php?email=${email}&message=${message}`;
+export function sendEmail(email, message, facebook) {
+  const url = `sendemail.php?email=${email}&message=${message}&facebook=${facebook}`;
   return axios.post(url, {email, message});
 }

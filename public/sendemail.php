@@ -13,7 +13,8 @@ if(isset($_REQUEST['email']) && $_REQUEST['message']){
     $to = "mperazac@yahoo.com"; // this is your Email address
     $from = "lamucacr"; // this is the sender's Email address
     $subject = "Email from La Muca CR";
-    $message = "Email: " . $_REQUEST['email'] . "\n\n" . "Wrote the following: " . $_REQUEST['message'];
+    $message = "Email: " . $_REQUEST['email'] . "\n\n" . "Wrote the following: " . $_REQUEST['message']. "\n\n" .
+        "Facebook Link: " . $_REQUEST['facebook'];
     $headers = "From:info@lamucacr.com";
     mail($to,$subject,$message,$headers);
 }

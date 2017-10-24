@@ -7,8 +7,7 @@ import {
   Input,
   Modal,
   ModalHeader,
-  ModalBody,
-  ModalFooter
+  ModalBody
 } from  'reactstrap';
 import { sendEmail } from '../api/index';
 
@@ -22,17 +21,23 @@ class ContactUs extends Component {
     super();
     this.state = {
       email:'',
-      message: ''
+      message: '',
+      facebook: ''
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
+    this.handleFacebookChange = this.handleFacebookChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onHide = this.onHide.bind(this);
   }
 
   handleEmailChange(event) {
     this.setState({email: event.target.value});
+  }
+
+  handleFacebookChange(event) {
+    this.setState({facebook: event.target.value});
   }
 
   handleMessageChange(event) {
@@ -42,13 +47,14 @@ class ContactUs extends Component {
   onHide() {
     this.setState({
       email: '',
-      message: ''
+      message: '',
+      facebook: ''
     });
     this.props.onHide();
   }
 
   onSubmit() {
-    sendEmail(this.state.email, this.state.message);
+    sendEmail(this.state.email, this.state.message, this.state.facebook);
     this.onHide();
   }
   render() {
@@ -56,10 +62,9 @@ class ContactUs extends Component {
     return (
       <Modal isOpen={showModal} toggle={this.onHide}>
         <ModalHeader closeButton>
-          ¡Hola!
+          Envíanos tu comentario o tu evento MTB
         </ModalHeader>
         <ModalBody>
-          <h4>Envíanos tu comentario o tu evento MTB</h4>
           <p>Si nos vas a enviar tu evento de MTB para que lo publiquenos,
             lo único que nos debes de enviar es el enlace al evento en
             Facebook. ¡Es gratis! <span role="img" aria-label="emoji">😉</span></p>
@@ -84,14 +89,24 @@ class ContactUs extends Component {
                 onChange={this.handleMessageChange}
               />
             </FormGroup>
+            <FormGroup>
+              <Label for="formControlsFacebook">Enlace al evento en Facebook</Label>
+              <Input
+                type="facebook"
+                name="facebook"
+                id="formControlsFacebook"
+                value={this.state.facebook}
+                placeholder="https://www.facebook.com/events/id_evento"
+                onChange={this.handleFacebookChange}
+              />
+            </FormGroup>
+            <div className="g-recaptcha" data-sitekey="6LeJdTUUAAAAAJscEPeq0GQXH3PpuJmfdt_WxiI0"></div>
+            <Button onClick={this.onHide}>Cerrar</Button>
+            <Button color="primary" onClick={this.onSubmit}>
+              Enviar
+            </Button>
           </Form>
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={this.onHide}>Cerrar</Button>
-          <Button color="primary" onClick={this.onSubmit}>
-            Enviar
-          </Button>
-        </ModalFooter>
       </Modal>
     );
   }
