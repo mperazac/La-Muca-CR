@@ -45,4 +45,6 @@ export const mtbFacebookPages = [
   'guanaride',
   'LaRutaDeLosConquistadores',
   'rincondelaviejachallenge',
+  'RecreativaHorquetas',
+  'recreativanandayure',
 ];
