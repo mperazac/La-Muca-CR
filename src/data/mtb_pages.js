@@ -47,4 +47,6 @@ export const mtbFacebookPages = [
   'rincondelaviejachallenge',
   'RecreativaHorquetas',
   'recreativanandayure',
+  'SenderosdelaHacienda',
+  'Aconvivir.org'
 ];
