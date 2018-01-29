@@ -7,14 +7,14 @@ import EventsSection from './components/events_sections_container';
 import Footer from './components/footer';
 import Header from './components/header';
 import './App.css';
-import './shared/utilities.css'
+import './shared/utilities.css';
 
 const propTypes = {
-  isConnected: PropTypes.bool
+  isConnected: PropTypes.bool,
 };
 
 const defaultProps = {
-  isConnected: false
+  isConnected: false,
 };
 
 class App extends Component {
