@@ -5,20 +5,20 @@ import { Button } from 'reactstrap';
 const propTypes = {
   text: PropTypes.string,
   link: PropTypes.string,
-  maxLength: PropTypes.number
+  maxLength: PropTypes.number,
 };
 
 const defaultProps = {
   text: '',
   link: '',
-  maxLength: 400
+  maxLength: 400,
 };
 
 
 const shorten = (text, maxLength) => {
   let ret = text;
   if (ret.length > maxLength) {
-    ret = `${ret.substr(0,maxLength-3)}... `;
+    ret = `${ret.substr(0, maxLength - 3)}... `;
   }
   return ret;
 };
@@ -33,8 +33,9 @@ const Description = props => (
         href={props.link}
         outline
         color="secondary"
-        target="_blank">
-        Ver más <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
+        target="_blank"
+      >
+        Ver más <i className="fa fa-long-arrow-right" aria-hidden="true" />
       </Button>
     )}
   </div>

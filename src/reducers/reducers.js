@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import EventsReducer from './events';
-import facebookLogin from './login-reducer.js';
-import userInformation from './user-information.js'
+import facebookLogin from './login-reducer';
+import userInformation from './user-information';
 
 const rootReducer = combineReducers({
-  facebookLogin: facebookLogin,
-  userInformation: userInformation,
-  events: EventsReducer
+  facebookLogin,
+  userInformation,
+  events: EventsReducer,
 });
 
 export default rootReducer;

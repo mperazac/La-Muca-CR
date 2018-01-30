@@ -8,7 +8,7 @@ export function startFetching() {
   return { type: 'fetching' };
 }
 
-export function getUserInformation(userInformation, user_access_token) {
-  const userInfo = R.assoc('access_token', user_access_token, userInformation);
+export function getUserInformation(userInformation, userAccessToken) {
+  const userInfo = R.assoc('accessToken', userAccessToken, userInformation);
   return { type: 'getUserInformation', payload: userInfo };
 }

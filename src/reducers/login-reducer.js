@@ -4,18 +4,17 @@ export default function (state = { isConnected: null, isWorking: null }, action)
       if (action.payload === 'connected') {
         return ({
           isConnected: true,
-          isWorking: false
-        });
-      } else {
-        return ({
-          isConnected: false,
-          isWorking: false
+          isWorking: false,
         });
       }
+      return ({
+        isConnected: false,
+        isWorking: false,
+      });
     case 'fetching':
       return ({
         isConnected: state.isConnected,
-        isWorking: true
+        isWorking: true,
       });
     default:
       return state;

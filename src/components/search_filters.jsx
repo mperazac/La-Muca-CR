@@ -8,7 +8,7 @@ import './search_filters.css';
 
 const propTypes = {
   onSearch: PropTypes.func.isRequired,
-  onClean: PropTypes.func.isRequired
+  onClean: PropTypes.func.isRequired,
 };
 
 class SearchFilter extends Component {
@@ -16,7 +16,7 @@ class SearchFilter extends Component {
     super(props);
     this.state = {
       searchWord: '',
-      searchDate: undefined
+      searchDate: undefined,
     };
     this.onSearch = this.onSearch.bind(this);
     this.onClean = this.onClean.bind(this);
@@ -29,12 +29,12 @@ class SearchFilter extends Component {
   onClean() {
     this.setState({
       searchWord: '',
-      searchDate: undefined
+      searchDate: undefined,
     });
     this.props.onClean();
   }
   handleKeyPress(event) {
-    if(event.key === 'Enter'){
+    if (event.key === 'Enter') {
       this.onSearch();
     }
   }
@@ -45,7 +45,7 @@ class SearchFilter extends Component {
       locale: 'es',
       fromMonth: now,
       initialMonth: now,
-      fixedWeeks: true
+      fixedWeeks: true,
     };
     const value = this.state.searchDate
       ? this.state.searchDate.format('DD/MM/YYYY')
@@ -53,14 +53,14 @@ class SearchFilter extends Component {
     return (
       <div className="searchfilter-container mg-t-xl" >
         <div className="row align-items-center">
-          <div className="col-md-3"></div>
+          <div className="col-md-3" />
           <div className="col-md-3">
             <input
               type="text"
               className="form-control mb-2 mb-md-0"
               id="inlineFormInputName"
               placeholder="Por palabras"
-              onChange={(evt) => {this.setState({ searchWord: evt.target.value })}}
+              onChange={evt => this.setState({ searchWord: evt.target.value })}
               value={this.state.searchWord}
               onKeyPress={this.handleKeyPress}
             />
@@ -71,9 +71,7 @@ class SearchFilter extends Component {
               value={value}
               format="DD/MM/YYYY"
               placeholder="Por fecha"
-              onDayChange={(searchDate) => {
-                this.setState({ searchDate })
-              }}
+              onDayChange={searchDate => this.setState({ searchDate })}
               dayPickerProps={dayPickerProps}
               className="form-control mb-2 mb-md-0"
               onKeyPress={this.handleKeyPress}
@@ -86,13 +84,13 @@ class SearchFilter extends Component {
               className="mg-r-sm"
               onClick={this.onSearch}
             >
-              <i className="fa fa-search"></i> Buscar
+              <i className="fa fa-search" /> Buscar
             </Button>
             <Button color="secondary" onClick={this.onClean}>
               Limpiar
             </Button>
           </div>
-          <div className="col-sm-1"></div>
+          <div className="col-sm-1" />
         </div>
       </div>
     );

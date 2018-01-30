@@ -3,26 +3,27 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Form,
-  FormGroup,Label,
+  FormGroup,
+  Label,
   Input,
   Modal,
   ModalHeader,
-  ModalBody
-} from  'reactstrap';
+  ModalBody,
+} from 'reactstrap';
 import { sendEmail } from '../api/index';
 
 const propTypes = {
   showModal: PropTypes.bool.isRequired,
-  onHide: PropTypes.func.isRequired
+  onHide: PropTypes.func.isRequired,
 };
 
 class ContactUs extends Component {
   constructor() {
     super();
     this.state = {
-      email:'',
+      email: '',
       message: '',
-      facebook: ''
+      facebook: '',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -32,23 +33,11 @@ class ContactUs extends Component {
     this.onHide = this.onHide.bind(this);
   }
 
-  handleEmailChange(event) {
-    this.setState({email: event.target.value});
-  }
-
-  handleFacebookChange(event) {
-    this.setState({facebook: event.target.value});
-  }
-
-  handleMessageChange(event) {
-    this.setState({message: event.target.value});
-  }
-
   onHide() {
     this.setState({
       email: '',
       message: '',
-      facebook: ''
+      facebook: '',
     });
     this.props.onHide();
   }
@@ -56,6 +45,18 @@ class ContactUs extends Component {
   onSubmit() {
     sendEmail(this.state.email, this.state.message, this.state.facebook);
     this.onHide();
+  }
+
+  handleEmailChange(event) {
+    this.setState({ email: event.target.value });
+  }
+
+  handleFacebookChange(event) {
+    this.setState({ facebook: event.target.value });
+  }
+
+  handleMessageChange(event) {
+    this.setState({ message: event.target.value });
   }
   render() {
     const { showModal } = this.props;
@@ -67,8 +68,8 @@ class ContactUs extends Component {
         <ModalBody>
           <p>Si nos vas a enviar tu evento de MTB para que lo publiquenos,
             lo único que nos debes de enviar es el enlace al evento en
-            Facebook. ¡Es gratis! <span role="img" aria-label="emoji">😉</span></p>
-
+            Facebook. ¡Es gratis! <span role="img" aria-label="emoji">😉</span>
+          </p>
           <Form action="emailHandler.php" method="POST" id="emailForm">
             <FormGroup>
               <Label for="formControlsEmail">Correo electrónico</Label>
@@ -100,7 +101,7 @@ class ContactUs extends Component {
                 onChange={this.handleFacebookChange}
               />
             </FormGroup>
-            <div className="g-recaptcha" data-sitekey="6LeJdTUUAAAAAJscEPeq0GQXH3PpuJmfdt_WxiI0"></div>
+            <div className="g-recaptcha" data-sitekey="6LeJdTUUAAAAAJscEPeq0GQXH3PpuJmfdt_WxiI0" />
             <Button onClick={this.onHide}>Cerrar</Button>
             <Button color="primary" onClick={this.onSubmit}>
               Enviar

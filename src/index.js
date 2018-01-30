@@ -1,3 +1,4 @@
+/* global window document */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -17,19 +18,12 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ // eslint-disable-line no-underscore
   })
   : compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(ReduxThunk)
-);
+const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
 
 const store = createStore(
   rootReducer,
-  enhancer
+  enhancer,
 );
 
-ReactDOM.render(
-	<Provider store={store}>
-    <App />
-  </Provider>,
-	document.getElementById('root')
-);
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();

@@ -11,7 +11,7 @@ class Footer extends Component {
     super();
     this.state = {
       showContactUsModal: false,
-      showTermsAndConditions: false
+      showTermsAndConditions: false,
     };
     this.openContactUsModal = this.openContactUsModal.bind(this);
     this.closeContactUsModal = this.closeContactUsModal.bind(this);
@@ -47,7 +47,8 @@ class Footer extends Component {
           </Button>
           <Button
             color="link"
-            onClick={this.openTermsAndConditions}>
+            onClick={this.openTermsAndConditions}
+          >
             Términos y condiciones
           </Button>
         </div>

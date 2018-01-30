@@ -5,11 +5,17 @@ import { fetchAllBatchEvents } from '../actions/events';
 
 function mapStateToProps(state) {
   const { meta, data, paging } = state.events;
-  const access_token = state.userInformation !== null
-    ? state.userInformation.access_token
+  const accessToken = state.userInformation !== null
+    ? state.userInformation.accessToken
     : null;
   const { isConnected } = state.facebookLogin;
-  return { meta, data, access_token, isConnected, paging };
+  return {
+    meta,
+    data,
+    accessToken,
+    isConnected,
+    paging,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

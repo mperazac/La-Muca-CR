@@ -10,66 +10,66 @@ export function fetchEventsRequest() {
 export function fetchEventsFailure(error) {
   return {
     type: FacebookActionTypes.FETCH_EVENTS_FAILURE,
-    payload: { error }
+    payload: { error },
   };
 }
 
 export function fetchAllBatchEventsSuccess(events, total) {
   return {
     type: FacebookActionTypes.FETCH_ALL_EVENTS_SUCCESS,
-    payload: { events, total }
+    payload: { events, total },
   };
 }
 
-/**
- * Fetches events by facebooks pages and single events
- * @param access_token
- * @param facebookPages
- * @param facebookEvents
- * @returns {function(*=)}
- */
-export function fetchAllBatchEvents(access_token, facebookPages, facebookEvents, excludeFacebookEvents) {
-  return (dispatch) => {
-    dispatch(fetchEventsRequest());
-    return (eventsApi.fetchBatchPagesEvents(access_token, facebookPages)
-        .then(({ data }) => {
-          const events = getEvents(data);
-          const eventsIds = R.concat(R.pluck('id', events), facebookEvents);
-          const uniqueEventsIds = R.without(excludeFacebookEvents, R.uniq(eventsIds));
-          eventsApi.fetchBatchEventsDetailsByIds(access_token, uniqueEventsIds)
-            .then(({ data }) => {
-              const onlyUpcomingEvents = getOnlyUpcomingEvents(Object.values(data));
-              dispatch(fetchAllBatchEventsSuccess(onlyUpcomingEvents, 0));
-            })
-            .catch((msj) => {
-              const error = { message: 'Failed to fetch events details' };
-              dispatch(fetchEventsFailure(error));
-            });
-        })
-        .catch((msj) => {
-          const error = { message: 'Failed to fetch events' };
-          dispatch(fetchEventsFailure(error));
-        })
-    );
-  };
-}
+const getOnlyUpcomingEvents = events =>
+  R.filter(event => moment(event.start_time).isSameOrAfter(moment.now()), events);
 
-const getOnlyUpcomingEvents = (events) => {
-  return R.filter((event) => {
-    //return new Date(event.start_time) > Date.now();
-    return moment(event.start_time).isSameOrAfter(moment.now());
-  }, events)
-};
-
-const getEvents = (events) => {
-  return R.reduce(
+const getEvents = events =>
+  R.reduce(
     R.concat,
     [],
     R.compose(
       R.pluck('data'),
-      R.map((event) => JSON.parse(event)),
+      R.map(event => JSON.parse(event)),
       R.pluck('body'),
-      R.filter(R.propEq('code', 200))
-    )(events)
+      R.filter(R.propEq('code', 200)),
+    )(events),
   );
-};
+
+/**
+ * Fetches events by facebooks pages and single events
+ * @param accessToken
+ * @param facebookPages
+ * @param facebookEvents
+ * @returns {function(*=)}
+ */
+export function fetchAllBatchEvents(
+  accessToken,
+  facebookPages,
+  facebookEvents,
+  excludeFacebookEvents,
+) {
+  return (dispatch) => {
+    dispatch(fetchEventsRequest());
+    return (eventsApi.fetchBatchPagesEvents(accessToken, facebookPages)
+      .then(({ data }) => {
+        const events = getEvents(data);
+        const eventsIds = R.concat(R.pluck('id', events), facebookEvents);
+        const uniqueEventsIds = R.without(excludeFacebookEvents, R.uniq(eventsIds));
+        eventsApi.fetchBatchEventsDetailsByIds(accessToken, uniqueEventsIds)
+          .then(({ data }) => {
+            const onlyUpcomingEvents = getOnlyUpcomingEvents(Object.values(data));
+            dispatch(fetchAllBatchEventsSuccess(onlyUpcomingEvents, 0));
+          })
+          .catch(() => {
+            const error = { message: 'Failed to fetch events details' };
+            dispatch(fetchEventsFailure(error));
+          });
+      })
+      .catch(() => {
+        const error = { message: 'Failed to fetch events' };
+        dispatch(fetchEventsFailure(error));
+      })
+    );
+  };
+}

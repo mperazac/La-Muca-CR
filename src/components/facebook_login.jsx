@@ -10,11 +10,11 @@ const propTypes = {
   startFetching: PropTypes.func.isRequired,
   getUserInformation: PropTypes.func.isRequired,
   userInformation: PropTypes.object,
-  facebookLogin: PropTypes.object.isRequired
+  facebookLogin: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
-  userInformation: {}
+  userInformation: {},
 };
 
 class FacebookLogin extends Component {
@@ -24,23 +24,28 @@ class FacebookLogin extends Component {
     this.logout = this.logout.bind(this);
     this.getUserInformation = this.getUserInformation.bind(this);
   }
-
+  getUserInformation() {
+    const {
+      facebookLogin,
+      userInformation,
+      getUserInformation,
+    } = this.props;
+    if (facebookLogin.isConnected && !userInformation) {
+      const userAccessToken = FB.getAuthResponse().accessToken;
+      FB.api(
+        '/me',
+        'GET',
+        { fields: 'id,name,email' },
+        () => getUserInformation(userInformation, userAccessToken),
+      );
+    }
+  }
   login(response) {
     this.props.getLoginStatus(response.status);
   }
   logout(response) {
     this.props.getLoginStatus(response.status);
     this.props.getUserInformation(null);
-  }
-  getUserInformation() {
-    if (this.props.facebookLogin.isConnected && !this.props.userInformation) {
-      const user_access_token = FB.getAuthResponse()['accessToken'];
-      FB.api('/me', 'GET', { fields: 'id,name,email' },
-        userInformation => {
-          this.props.getUserInformation(userInformation, user_access_token);
-        }
-      );
-    }
   }
   render() {
     this.getUserInformation();
@@ -49,7 +54,7 @@ class FacebookLogin extends Component {
         {!this.props.facebookLogin.isConnected &&
           <div className="facebook-login-description">
             Conéctate con tu cuenta de Facebook para
-            poder listar los eventos de MTB.<br/>Tranquilo(a), no guardaremos
+            poder listar los eventos de MTB.<br />Tranquilo(a), no guardaremos
             nada de tu información.
           </div>
         }

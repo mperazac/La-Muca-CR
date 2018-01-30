@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import R from 'ramda';
 import moment from 'moment';
 import ReactLoading from 'react-loading';
-import ImageZoom from 'react-medium-image-zoom'
+import ImageZoom from 'react-medium-image-zoom';
 import { mtbFacebookPages } from '../data/mtb_pages';
 import { mtbFacebookEvents } from '../data/mtb_events';
-import { mtbExcludeFacebookEvents } from'../data/mtb_exclusions';
+import { mtbExcludeFacebookEvents } from '../data/mtb_exclusions';
 import { getEventTime,
-  getMonth, getDay, getWeekDay
+  getMonth, getDay, getWeekDay,
 } from '../helpers/date_helpers';
 import Description from './description';
 import SearchFilter from './search_filters';
@@ -18,21 +18,23 @@ import ShareThis from './../shared/share_this';
 
 const propTypes = {
   data: PropTypes.shape({
-    events: PropTypes.array.isRequired
+    events: PropTypes.array.isRequired,
   }).isRequired,
   meta: PropTypes.shape({
     isFetchingEvents: PropTypes.bool.isRequired,
-    total: PropTypes.number.isRequired
+    total: PropTypes.number.isRequired,
   }).isRequired,
-  paging: PropTypes.object.isRequired,
+  paging: PropTypes.shape({
+    cursor: PropTypes.any,
+  }).isRequired,
   fetchAllBatchEvents: PropTypes.func.isRequired,
-  access_token: PropTypes.string,
-  isConnected: PropTypes.bool
+  accessToken: PropTypes.string,
+  isConnected: PropTypes.bool,
 };
 
 const defaultProps = {
-  access_token: '-1',
-  isConnected: false
+  accessToken: null,
+  isConnected: false,
 };
 
 const pageSize = 10;
@@ -44,7 +46,7 @@ class EventsSection extends Component {
       currentPage: 1,
       hasFetched: false,
       searchWord: null,
-      searchDate: undefined
+      searchDate: undefined,
     };
     this.onPagination = this.onPagination.bind(this);
     this.onShowMore = this.onShowMore.bind(this);
@@ -52,16 +54,52 @@ class EventsSection extends Component {
     this.onCleanSearch = this.onCleanSearch.bind(this);
   }
   componentDidMount() {
-    if (this.props.isConnected && this.props.access_token) {
-      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents, mtbExcludeFacebookEvents);
+    if (this.props.isConnected && this.props.accessToken) {
+      this.props.fetchAllBatchEvents(
+        this.props.accessToken,
+        mtbFacebookPages,
+        mtbFacebookEvents,
+        mtbExcludeFacebookEvents,
+      );
     }
   }
   componentDidUpdate() {
-    if (this.props.isConnected && this.props.access_token
+    if (this.props.isConnected && this.props.accessToken
     && !this.state.hasFetched) {
       this.setState({ hasFetched: true });
-      this.props.fetchAllBatchEvents(this.props.access_token, mtbFacebookPages, mtbFacebookEvents, mtbExcludeFacebookEvents);
+      this.props.fetchAllBatchEvents(
+        this.props.accessToken,
+        mtbFacebookPages,
+        mtbFacebookEvents,
+        mtbExcludeFacebookEvents,
+      );
     }
+  }
+  onSearch(searchWord, searchDate) {
+    this.setState({
+      searchWord,
+      searchDate,
+    });
+  }
+  onCleanSearch() {
+    this.setState({
+      searchWord: null,
+      searchDate: undefined,
+      currentPage: 1,
+    });
+  }
+  onShowMore(sizeOfNextPage) {
+    this.setState({
+      currentPage: this.state.currentPage + (sizeOfNextPage / pageSize),
+    });
+  }
+  onPagination() {
+    const {
+      fetchEvents,
+      accessToken,
+      paging: { cursors: { after } }
+    } = this.props;
+    fetchEvents(accessToken, after);
   }
   getFilteredEvents() {
     const { searchWord, searchDate } = this.state;
@@ -97,64 +135,38 @@ class EventsSection extends Component {
     }
     return events;
   }
-  onSearch(searchWord, searchDate) {
-    this.setState({
-      searchWord,
-      searchDate
-    });
-  }
-  onCleanSearch() {
-    this.setState({
-      searchWord: null,
-      searchDate: undefined,
-      currentPage: 1,
-    });
-  }
-  onShowMore(sizeOfNextPage) {
-    this.setState({
-      currentPage: this.state.currentPage + (sizeOfNextPage / pageSize)
-    });
-  }
-  onPagination() {
-    const {
-      fetchEvents,
-      access_token,
-      paging: { cursors: { after } }
-    } = this.props;
-    fetchEvents(access_token, after);
-  }
   renderPlace(place) {
-    if (!place) return;
-    const { name, location = { city: '', country: ''} } = place;
+    if (!place) return null;
+    const { name, location = { city: '', country: '' } } = place;
     const address = R.uniq([name, location.city, location.country]);
     return (
       <div>
-        <span><i className="fa fa-map-marker" aria-hidden="true"></i> {R.join(',', address)}</span>
+        <span><i className="fa fa-map-marker" aria-hidden="true" /> {R.join(',', address)}</span>
       </div>
-      );
+    );
   }
   renderEvents() {
     const { currentPage } = this.state;
     const filteredEvents = this.getFilteredEvents();
     const eventsShown = R.slice(0, currentPage * pageSize, filteredEvents);
-  	return (
-  	  <div>
-        { eventsShown.map((event, index) => {
+    return (
+      <div>
+        { eventsShown.map((event) => {
           const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
           const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
           return (
-            <div key={index} className="event-container event-list">
+            <div key={event.id} className="event-container event-list">
               <div className="row">
                 <div className="col-md-5 col-sm-6">
                   <figure className="event-cover-img">
                     <ImageZoom
                       image={{
                         src: event.cover.source,
-                        alt: `event conver image ${event.name}`
+                        alt: `event conver image ${event.name}`,
                       }}
                       zoomImage={{
                         src: event.cover.source,
-                        alt: `event conver image ${event.name}`
+                        alt: `event conver image ${event.name}`,
                       }}
                     />
                   </figure>
@@ -170,15 +182,29 @@ class EventsSection extends Component {
                         </div>
                       </div>
                       <div className="right">
-                        <h3><a href={facebookEventLink} className="event-name" target="_blank">{event.name}</a></h3>
-                        <span><i className="fa fa-clock-o" aria-hidden="true"></i> {getEventTime(event.start_time)} - {getEventTime(event.end_time)}</span>
+                        <h3>
+                          <a href={facebookEventLink} className="event-name" target="_blank">
+                            {event.name}
+                          </a>
+                        </h3>
+                        <span>
+                          <i className="fa fa-clock-o" aria-hidden="true" />
+                          &nbsp;{getEventTime(event.start_time)} - {getEventTime(event.end_time)}
+                        </span>
                         { this.renderPlace(event.place) }
-                        <div><span>Organizado por: <a href={facebookOwnerLink} target="_blank">{event.owner.name}</a></span></div>
-                        <ShareThis url={facebookEventLink} title={event.name}/>
+                        <div>
+                          <span>
+                            Organizado por:&nbsp;
+                            <a href={facebookOwnerLink} target="_blank">
+                              {event.owner.name}
+                            </a>
+                          </span>
+                        </div>
+                        <ShareThis url={facebookEventLink} title={event.name} />
                       </div>
                     </div>
                     <div className="content-wrap">
-                      <Description text={event.description} link={facebookEventLink}/>
+                      <Description text={event.description} link={facebookEventLink} />
                     </div>
                   </div>
                 </div>
@@ -186,16 +212,16 @@ class EventsSection extends Component {
             </div>
           );
         })}
-        {this.renderShowMore(filteredEvents)}
+        { this.renderShowMore(filteredEvents) }
       </div>
-		);
-	}
-	renderSearchFilters() {
-    return (
-      <SearchFilter onSearch={this.onSearch} onClean={this.onCleanSearch}/>
     );
   }
-	renderShowMore(events) {
+  renderSearchFilters() {
+    return (
+      <SearchFilter onSearch={this.onSearch} onClean={this.onCleanSearch} />
+    );
+  }
+  renderShowMore(events) {
     const { currentPage } = this.state;
     const eventsShown = R.slice(0, currentPage * pageSize, events);
     return (
@@ -209,10 +235,10 @@ class EventsSection extends Component {
   }
   renderEventsSection() {
     const {
-      data: { events }
+      data: { events },
     } = this.props;
     return (
-    	<div>
+      <div>
         { events.length > 0 &&
           <div>
             {this.renderSearchFilters()}
@@ -222,23 +248,23 @@ class EventsSection extends Component {
         { (events.length === 0 && this.state.hasFetched) &&
           <div>No se encontraron eventos próximos</div>
         }
-			</div>
-		);
-	}
-	render() {
-  	const {
-  		data: { events },
-			meta: { isFetchingEvents }
-  	} = this.props;
-		return (
-			<div>
-				{ isFetchingEvents
-						? <ReactLoading type="spin" color="#444" className="loading"/>
-						: this.renderEventsSection(events)
-				}
-			</div>
-		);
-	}
+      </div>
+    );
+  }
+  render() {
+    const {
+      data: { events },
+      meta: { isFetchingEvents },
+    } = this.props;
+    return (
+      <div>
+        { isFetchingEvents
+          ? <ReactLoading type="spin" color="#444" className="loading" />
+          : this.renderEventsSection(events)
+        }
+      </div>
+    );
+  }
 }
 
 EventsSection.propTypes = propTypes;

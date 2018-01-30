@@ -5,13 +5,13 @@ import { getLoginStatus, startFetching, getUserInformation } from '../actions/fa
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getLoginStatus, startFetching, getUserInformation
+    getLoginStatus, startFetching, getUserInformation,
   }, dispatch);
 }
 function mapStateToProps(state) {
   return {
     userInformation: state.userInformation,
-    facebookLogin: state.facebookLogin
+    facebookLogin: state.facebookLogin,
   };
 }
 

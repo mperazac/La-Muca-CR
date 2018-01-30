@@ -4,7 +4,7 @@ import * as FacebookActionTypes from '../actiontypes/events';
 
 const initialState = {
   data: {
-    events: []
+    events: [],
   },
   meta: {
     isFetchingEvents: false,
@@ -13,14 +13,14 @@ const initialState = {
   paging: {
     cursors: {
       before: '',
-      after: ''
+      after: '',
     },
-    next: ''
-  }
+    next: '',
+  },
 };
 
 const EventsListReducer = (state = initialState, action) => {
-  const {type, payload} = action;
+  const { type, payload } = action;
   switch (type) {
     case FacebookActionTypes.FETCH_EVENTS_REQUEST:
       return deepFreeze(R.assocPath(['meta', 'isFetchingEvents'], true, state));
@@ -34,10 +34,10 @@ const EventsListReducer = (state = initialState, action) => {
             ['data', 'events'],
             R.sortBy(R.prop('start_time'))(R.concat(
               state.data.events,
-              payload.events
-            ))
-          )
-        )(state)
+              payload.events,
+            )),
+          ),
+        )(state),
       );
     default:
       return deepFreeze(state);
