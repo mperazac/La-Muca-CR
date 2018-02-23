@@ -28,7 +28,6 @@ const Description = props => (
     <p className="description-text">
       {shorten(props.text, props.maxLength)}
     </p>
-    { props.text.length > props.maxLength && (
       <Button
         href={props.link}
         outline
@@ -37,7 +36,6 @@ const Description = props => (
       >
         Ver más <i className="fa fa-long-arrow-right" aria-hidden="true" />
       </Button>
-    )}
   </div>
 );
 
