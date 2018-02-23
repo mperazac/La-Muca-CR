@@ -1,3 +1,4 @@
+/* global window */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
@@ -8,13 +9,14 @@ import ImageZoom from 'react-medium-image-zoom';
 import { mtbFacebookPages } from '../data/mtb_pages';
 import { mtbFacebookEvents } from '../data/mtb_events';
 import { mtbExcludeFacebookEvents } from '../data/mtb_exclusions';
-import { getEventTime,
+import {
+  getEventTime,
   getMonth, getDay, getWeekDay,
 } from '../helpers/date_helpers';
 import Description from './description';
 import SearchFilter from './search_filters';
 import './events_section.css';
-import ShareThis from './../shared/share_this';
+import ShareThis from './../shared/shareThis';
 
 const propTypes = {
   data: PropTypes.shape({
@@ -72,6 +74,7 @@ class EventsSection extends Component {
         mtbExcludeFacebookEvents,
       );
     }
+    window.__sharethis__.initialize();
   }
   onSearch(searchWord, searchDate) {
     this.setState({
