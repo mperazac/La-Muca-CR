@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import moment from 'moment';
+import InfiniteScroller from 'react-infinite-scroller';
 import ReactLoading from 'react-loading';
 import ImageZoom from 'react-medium-image-zoom';
 import { mtbFacebookPages } from '../data/mtb_pages';
@@ -13,7 +14,6 @@ import { getEventTime,
 import Description from './description';
 import SearchFilter from './search_filters';
 import './events_section.css';
-import ShowMore from './../shared/pagination_show_more/pagination_show_more';
 import ShareThis from './../shared/share_this';
 
 const propTypes = {
@@ -23,9 +23,6 @@ const propTypes = {
   meta: PropTypes.shape({
     isFetchingEvents: PropTypes.bool.isRequired,
     total: PropTypes.number.isRequired,
-  }).isRequired,
-  paging: PropTypes.shape({
-    cursor: PropTypes.any,
   }).isRequired,
   fetchAllBatchEvents: PropTypes.func.isRequired,
   accessToken: PropTypes.string,
@@ -43,15 +40,16 @@ class EventsSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 1,
       hasFetched: false,
       searchWord: null,
       searchDate: undefined,
+      hasMoreEvents: true,
+      eventsToShow: [],
     };
-    this.onPagination = this.onPagination.bind(this);
-    this.onShowMore = this.onShowMore.bind(this);
+    this.loadMoreEvents = this.loadMoreEvents.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onCleanSearch = this.onCleanSearch.bind(this);
+    this.scroll = { pageLoaded: 0 };
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.accessToken) {
@@ -79,27 +77,19 @@ class EventsSection extends Component {
     this.setState({
       searchWord,
       searchDate,
+      hasMoreEvents: true,
     });
+    this.scroll.pageLoaded = 0;
+    this.loadMoreEvents(0);
   }
   onCleanSearch() {
     this.setState({
       searchWord: null,
       searchDate: undefined,
-      currentPage: 1,
+      hasMoreEvents: true,
     });
-  }
-  onShowMore(sizeOfNextPage) {
-    this.setState({
-      currentPage: this.state.currentPage + (sizeOfNextPage / pageSize),
-    });
-  }
-  onPagination() {
-    const {
-      fetchEvents,
-      accessToken,
-      paging: { cursors: { after } }
-    } = this.props;
-    fetchEvents(accessToken, after);
+    this.scroll.pageLoaded = 0;
+    this.loadMoreEvents(0);
   }
   getFilteredEvents() {
     const { searchWord, searchDate } = this.state;
@@ -135,6 +125,14 @@ class EventsSection extends Component {
     }
     return events;
   }
+  loadMoreEvents(page) {
+    const events = this.getFilteredEvents();
+    const eventsToShow = R.slice(0, page * pageSize, events);
+    this.setState({
+      eventsToShow,
+      hasMoreEvents: eventsToShow.length >= page * pageSize,
+    });
+  }
   renderPlace(place) {
     if (!place) return null;
     const { name, location = { city: '', country: '' } } = place;
@@ -146,12 +144,10 @@ class EventsSection extends Component {
     );
   }
   renderEvents() {
-    const { currentPage } = this.state;
-    const filteredEvents = this.getFilteredEvents();
-    const eventsShown = R.slice(0, currentPage * pageSize, filteredEvents);
+    const { eventsToShow } = this.state;
     return (
       <div>
-        { eventsShown.map((event) => {
+        { eventsToShow.map((event) => {
           const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
           const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
           return (
@@ -212,25 +208,12 @@ class EventsSection extends Component {
             </div>
           );
         })}
-        { this.renderShowMore(filteredEvents) }
       </div>
     );
   }
   renderSearchFilters() {
     return (
       <SearchFilter onSearch={this.onSearch} onClean={this.onCleanSearch} />
-    );
-  }
-  renderShowMore(events) {
-    const { currentPage } = this.state;
-    const eventsShown = R.slice(0, currentPage * pageSize, events);
-    return (
-      <ShowMore
-        currentlyShown={eventsShown.length}
-        pageSize={pageSize}
-        total={events.length}
-        onShowMore={this.onShowMore}
-      />
     );
   }
   renderEventsSection() {
@@ -242,7 +225,15 @@ class EventsSection extends Component {
         { events.length > 0 &&
           <div>
             {this.renderSearchFilters()}
-            {this.renderEvents()}
+            <InfiniteScroller
+              pageStart={0}
+              loadMore={this.loadMoreEvents}
+              hasMore={this.state.hasMoreEvents}
+              loader={<ReactLoading type="spin" color="#444" className="loading" key={0} />}
+              ref={(scroll) => { this.scroll = scroll; }}
+            >
+              {this.renderEvents()}
+            </InfiniteScroller>
           </div>
         }
         { (events.length === 0 && this.state.hasFetched) &&

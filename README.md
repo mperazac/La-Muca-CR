@@ -1,3 +1,21 @@
+1. Edit the host file
+vi /private/etc/hosts
+127.0.0.1       test.lamuca.cr
+
+2. cd /Users/mauricioperaza/wod/lamuca
+3. Start the server
+  npm start
+
+4. In the browser, go to:
+  test.lamuca.cr:3000
+
+
+Start the server: 
+
+
+________________
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
