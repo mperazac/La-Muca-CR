@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './../img/la_muca_cr_logo.png';
 import './header.css';
 
 const Header = () => (
@@ -8,19 +9,24 @@ const Header = () => (
         <div className="a-banner">
           <div className="container">
             <div className="row">
-              <div className="col-xs-12 col-md-10">
+              <div className="col-xs-12 col-md-12">
                 <section className="banner-heading t-left">
-                  <h5 className="heading-subtitle">la muca cr</h5>
-                  <h1 className="heading-title">
-                    Calendario de Recreativas de MTB <span role="img" aria-label="social">🇨🇷</span>
-                  </h1>
-                  <p className="heading-text">
+                  <div className="row">
+                    <div className="col-xs-12 col-md-4 mg-r-lg">
+                      <img src={logo} alt="Logo" width="280" />
+                    </div>
+                    <div className="col-xs-12 col-md-7">
+                      <h1 className="heading-title">
+                        Calendario de Recreativas de MTB
+                      </h1>
+                    </div>
+                  </div>
+                  <p className="heading-text mg-t-lg">
                     Conocé en un sólo lugar todas las recreativas de MTB en Costa Rica y
-                    compartilas con tus amigos
+                    compartílas con tus amigos
                   </p>
                 </section>
               </div>
-              <div className="col-md-2" />
             </div>
           </div>
         </div>
