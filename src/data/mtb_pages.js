@@ -48,4 +48,7 @@ export const mtbFacebookPages = [
   'SenderosdelaHacienda',
   'Aconvivir.org',
   'MtbTierraBlanca',
+  'cleteando',
+  'mtbhaciendapinilla',
+  '113209812805278',
 ];
