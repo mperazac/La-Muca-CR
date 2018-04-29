@@ -33,9 +33,9 @@ const EventsListReducer = (state = initialState, action) => {
           R.assocPath(
             ['data', 'events'],
             R.sortBy(R.prop('start_time'))(R.concat(
-              state.data.events,
+              R.path(['data', 'events'], state),
               payload.events,
-            )),
+            ))
           ),
         )(state),
       );

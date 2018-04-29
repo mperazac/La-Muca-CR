@@ -55,26 +55,29 @@ class EventsSection extends Component {
   }
   componentDidMount() {
     if (this.props.isConnected && this.props.accessToken) {
-      this.props.fetchAllBatchEvents(
-        this.props.accessToken,
-        mtbFacebookPages,
-        mtbFacebookEvents,
-        mtbExcludeFacebookEvents,
-      );
+      this.fetchEvents();
     }
   }
   componentDidUpdate() {
     if (this.props.isConnected && this.props.accessToken
     && !this.state.hasFetched) {
       this.setState({ hasFetched: true });
-      this.props.fetchAllBatchEvents(
-        this.props.accessToken,
-        mtbFacebookPages,
-        mtbFacebookEvents,
-        mtbExcludeFacebookEvents,
-      );
+      this.fetchEvents();
     }
     window.__sharethis__.initialize();
+  }
+  fetchEvents() {
+    R.compose(
+      R.map((batchPages) =>
+        this.props.fetchAllBatchEvents(
+          this.props.accessToken,
+          batchPages,
+          mtbFacebookEvents,
+          mtbExcludeFacebookEvents,
+        )
+      ),
+      R.splitEvery(20)
+    )(mtbFacebookPages);
   }
   onSearch(searchWord, searchDate) {
     this.setState({

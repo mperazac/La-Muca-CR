@@ -12,7 +12,6 @@ const eventFields = ['id', 'name', 'cover', 'owner', 'description', 'start_time'
  * @returns {AxiosPromise}
  */
 export function fetchBatchPagesEvents(accessToken, facebookPages) {
-  accessToken = 'EAACEdEose0cBAKZBZBS1rjEmQsKB5d565T035UUaSfxkUNMGagDCilG9d8JdB4qsewh3v6XLlbBK89BJlnou5Lk0d85YeddIxH1ccP8zfuC40fa31ndr27cCKu82ohTHfWo8Lmy631ZBW4zzrvz8tTuTuQZCxOQ1B4lbExSnAqoGN1Eg3Dusi1l6dtei5DUuMzIBxkYeJuVRyA3ZC3ToZB2qTY7ZAeFQwzcRZBjG0vEEwAZDZD';
   let batch = [];
   R.map(
     page => batch.push({
