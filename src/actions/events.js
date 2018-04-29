@@ -54,17 +54,8 @@ export function fetchAllBatchEvents(
     return (eventsApi.fetchBatchPagesEvents(accessToken, facebookPages)
       .then(({ data }) => {
         const events = getEvents(data);
-        const eventsIds = R.concat(R.pluck('id', events), facebookEvents);
-        const uniqueEventsIds = R.without(excludeFacebookEvents, R.uniq(eventsIds));
-        eventsApi.fetchBatchEventsDetailsByIds(accessToken, uniqueEventsIds)
-          .then(({ data }) => {
-            const onlyUpcomingEvents = getOnlyUpcomingEvents(Object.values(data));
-            dispatch(fetchAllBatchEventsSuccess(onlyUpcomingEvents, 0));
-          })
-          .catch(() => {
-            const error = { message: 'Failed to fetch events details' };
-            dispatch(fetchEventsFailure(error));
-          });
+        //const onlyUpcomingEvents = getOnlyUpcomingEvents(events);
+        dispatch(fetchAllBatchEventsSuccess(events, 0));
       })
       .catch(() => {
         const error = { message: 'Failed to fetch events' };

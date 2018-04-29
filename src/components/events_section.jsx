@@ -152,7 +152,7 @@ class EventsSection extends Component {
       <div>
         { eventsToShow.map((event) => {
           const facebookEventLink = `https://www.facebook.com/events/${event.id}`;
-          const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
+          // const facebookOwnerLink = `https://www.facebook.com/${event.owner.id}`;
           return (
             <div key={event.id} className="event-container event-list">
               <div className="row">
@@ -191,14 +191,14 @@ class EventsSection extends Component {
                           &nbsp;{getEventTime(event.start_time)} - {getEventTime(event.end_time)}
                         </span>
                         { this.renderPlace(event.place) }
-                        <div>
-                          <span>
-                            Organizado por:&nbsp;
-                            <a href={facebookOwnerLink} target="_blank">
-                              {event.owner.name}
-                            </a>
-                          </span>
-                        </div>
+                        {/*<div>*/}
+                          {/*<span>*/}
+                            {/*Organizado por:&nbsp;*/}
+                            {/*<a href={facebookOwnerLink} target="_blank">*/}
+                              {/*{event.owner.name}*/}
+                            {/*</a>*/}
+                          {/*</span>*/}
+                        {/*</div>*/}
                         <ShareThis url={facebookEventLink} title={event.name} />
                       </div>
                     </div>
