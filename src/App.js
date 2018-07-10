@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactGA from 'react-ga';
+import { initAnalytics } from 'react-with-analytics';
 import FacebookLoginContainer from './components/facebook_login_container';
 import EventsSection from './components/events_sections_container';
 import Footer from './components/footer';
@@ -17,6 +18,8 @@ const propTypes = {
 const defaultProps = {
   isConnected: false,
 };
+
+initAnalytics('UA-00000000-0');
 
 class App extends Component {
   constructor() {
