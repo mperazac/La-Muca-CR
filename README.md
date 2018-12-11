@@ -2,7 +2,7 @@
 vi /private/etc/hosts
 127.0.0.1       test.lamuca.cr
 
-2. cd /Users/<username>/wod/lamuca
+2. cd /Users/username/wod/lamuca
 3. Start the server
   npm start
 
