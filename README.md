@@ -1,3 +1,6 @@
+It uses to work but Facebook changed its events permissions and now we cannot fetch for pages events.
+This app does not work anymore.
+
 1. Edit the host file
 vi /private/etc/hosts
 127.0.0.1       test.lamuca.cr
