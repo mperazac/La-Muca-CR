@@ -22,7 +22,7 @@
     "react-medium-image-zoom": "^2.0.7",
     "react-redux": "^5.0.7",
     "react-redux-firebase": "^2.0.4",
-    "react-scripts": "1.0.11",
+    "react-scripts": "5.0.1",
     "react-with-analytics": "0.0.4",
     "reactstrap": "^5.0.0-beta",
     "redux": "^3.7.2",
